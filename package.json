@@ -1,0 +1,24 @@
+{
+  "name": "1dv612",
+  "version": "1.0.0",
+  "description": "github dashboard 1dv612 examination",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "devstart": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1dv612/ep222ee-examination.git"
+  },
+  "author": "edwin palm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/1dv612/ep222ee-examination/issues"
+  },
+  "homepage": "https://github.com/1dv612/ep222ee-examination#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
