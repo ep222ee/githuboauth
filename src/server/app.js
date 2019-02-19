@@ -6,6 +6,8 @@ const app = express()
 
 const port = 3000
 
+app.use(express.static('dist'))
+
 app.get('/', function (req, res) {
   res.send('this should be visible!')
 })
