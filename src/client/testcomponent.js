@@ -4,7 +4,7 @@ export default class App extends Component {
   render () {
     return (
       <div>
-        <h1>Det här borde synas</h1>
+        <h1>autorestart relative path!</h1>
       </div>
     )
   }
