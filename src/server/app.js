@@ -9,7 +9,7 @@ const port = 3000
 app.use(express.static('dist'))
 
 app.get('/', function (req, res) {
-  res.send('this should be visible!')
+  res.send('tested pm2 automatic restart with relative path!')
 })
 
 app.listen(port, () => {
