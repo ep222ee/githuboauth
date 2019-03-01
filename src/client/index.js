@@ -1,5 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './testcomponent'
+import Link from './testcomponent'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<Link />, document.getElementById('root'))

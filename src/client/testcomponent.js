@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 
-export default class App extends Component {
+export default class Link extends Component {
+  getOauth (event) {
+    event.preventDefault()
+    console.log('tjoho')
+  }
+
   render () {
     return (
-      <div>
-        <h1>autorestart relative path425!</h1>
-      </div>
+      <a href='/auth/github' >
+        Login With Github
+      </a>
     )
   }
 }
