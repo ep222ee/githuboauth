@@ -14,6 +14,17 @@ app.use(express.static('dist'))
 app.use(passport.initialize())
 passport.use(githubStrategy)
 
+passport.serializeUser((user, cb) => {
+  // console.log(user)
+  cb(null, user)
+})
+
+passport.deserializeUser((user, cb) => {
+  // query db
+  // console.log(user)
+  cb(null, user)
+})
+
 app.get('/', function (req, res) {
   res.send('this should not be seen in production')
 })
@@ -21,11 +32,9 @@ app.get('/', function (req, res) {
 app.get('/auth/github',
   passport.authenticate('github'))
 
-app.get('auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
   (req, res) => {
-    console.log(req)
-    console.log(res)
     res.redirect('/')
   })
 
