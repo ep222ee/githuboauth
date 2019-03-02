@@ -30,7 +30,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/auth/github',
-  passport.authenticate('github'))
+  passport.authenticate('github', { scope: ['repo', 'admin:repo_hook'] }))
 
 app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
