@@ -40,12 +40,15 @@ app.use(passport.session())
 
 // Passport session serializing/deserializing.
 passport.serializeUser((user, cb) => {
+  // determines which data of the user object should be stored in the session.
   // console.log(user)
   cb(null, user)
 })
 
 passport.deserializeUser((user, cb) => {
   // query db
+  // Check db if the user id is corresponding to an actual user.
+  // if it does, attach to req.session
   // console.log(user)
   cb(null, user)
 })
@@ -61,6 +64,7 @@ app.get('/auth/github',
 app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   (req, res) => {
+    console.log(req)
     res.redirect('/')
   })
 
