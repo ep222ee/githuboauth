@@ -8,7 +8,8 @@
     "start": "npm run build && node src/server/app.js",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/app.js",
-    "devstart": "concurrently \"npm run server\" \"npm run client\""
+    "devstart": "concurrently \"npm run server\" \"npm run client\"",
+    "devserver": "concurrently \"npm run build\" \"npm run server\""
   },
   "repository": {
     "type": "git",
@@ -22,9 +23,12 @@
   "homepage": "https://github.com/1dv612/ep222ee-examination#readme",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "helmet": "^3.15.1",
+    "mongoose": "^5.4.17",
     "passport": "^0.4.0",
     "passport-github": "^1.1.0",
     "react": "^16.8.2",

@@ -13,6 +13,7 @@ const githubOptions = {
 module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, profile, cb) => {
   // user find or create
   console.log(accessToken)
+  console.log(profile)
 //  console.log(refreshToken)
   return cb(null, profile)
 })
