@@ -3,8 +3,6 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 
-
-
 // Database connectionstring
 let connectionString = `mongodb://${process.env.DB_USER_NAME}:${process.env.DB_PASSWORD}@ds${process.env.DB_NUMBER}.mlab.com:59185/${process.env.DB_NAME}`
 
