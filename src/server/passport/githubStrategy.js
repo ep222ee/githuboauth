@@ -18,6 +18,10 @@ module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, p
   // add token to returned profile obj? or save token to db?
   // console.log(accessToken)
   // console.log(profile)
+  let user = {
+    id: profile.id,
+    accessToken: accessToken
+  }
   // console.log(refreshToken)
-  return cb(null, profile)
+  return cb(null, user)
 })

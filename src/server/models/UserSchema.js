@@ -15,13 +15,5 @@ let userSchema = new mongoose.Schema({
   avatar_url: {
     type: String,
     required: true
-  },
-  organizations_url: {
-    type: String,
-    required: true
-  },
-  repos_url: {
-    type: String,
-    required: true
   }
 })
