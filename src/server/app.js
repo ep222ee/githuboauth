@@ -11,7 +11,7 @@ require('dotenv').config()
 
 const port = 3000
 
-process.env.NODE_ENV = process.env.NODE_ENV || "development"
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 mongoose()
 
@@ -27,9 +27,9 @@ app.use(session({
   saveUninitialized: true,
   resave: false,
   secret: process.env.SESSION_SECRET,
-  cookies : {
+  cookies: {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24,
+    maxAge: 1000 * 60 * 60 * 24
   }
 }))
 
@@ -52,7 +52,7 @@ passport.deserializeUser((user, cb) => {
   cb(null, user)
 })
 
-app.get('/', function (req, res) {
+app.get('/', function (req, res) { // remove this
   res.send('this should not be seen in production')
 })
 

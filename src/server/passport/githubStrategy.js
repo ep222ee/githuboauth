@@ -10,9 +10,6 @@ const githubOptions = {
   callbackURL: `${process.env.CALLBACK_URL}`
 }
 
-console.log('http://localhost:3000/auth/github/callback')
-console.log(githubOptions.callbackURL)
-
 module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, profile, cb) => {
   // user find or create
   // add token to returned profile obj? or save token to db?
