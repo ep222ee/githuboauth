@@ -63,13 +63,15 @@ passport.deserializeUser((user, cb) => {
   // query db
   // Check db if the user id is corresponding to an actual user.
   // if it does, attach to req.session
-  // console.log(user)
   cb(null, user)
 })
 
-app.get('/', function (req, res) { // remove this
-  res.send('this should not be seen in production')
-})
+let passportOauthRedirect = passport.authenticate('github', { scope: ['repo', 'admin:repo_hook'] })
+let passportOauthCallback = passport.authenticate('github', { failureRedirect: '/' })
+
+// Routes.
+app.use('/', require('./routes/api.js'))
+app.use('/', require('./routes/user.js'))
 
 // oauth routes, move to routes?
 app.get('/auth/github',
@@ -78,7 +80,8 @@ app.get('/auth/github',
 app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   (req, res) => {
-    console.log('yep')
+    console.log(req.user)
+
     res.redirect('/')
   })
 
@@ -96,5 +99,6 @@ if (process.env.NODE_ENV === 'production') {
   const cert = fs.readFileSync(path.join(__dirname, './config/sslcerts/cert.pem'), 'utf8')
   const https = require('https')
   let httpsServer = https.createServer({key: privateKey, cert: cert}, app)
+  console.log(`Express Dev server started on http://localhost:${port}`)
   httpsServer.listen(port)
 }

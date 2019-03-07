@@ -12,7 +12,6 @@ const githubOptions = {
 }
 
 module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, profile, cb) => {
-console.log(profile._json)
   User.findOne({githubID: profile.id}, (err, user) => {
     if (!user) {
 
@@ -21,7 +20,7 @@ console.log(profile._json)
         githubID: profile._json.id,
         avatar_url: profile._json.avatar_url
       })
-      
+
       newUser.save((err, user) => {
         if (err) {
           console.log(err)
