@@ -2,14 +2,9 @@
 
 // Requires
 const router = require('express').Router()
+const controller = require('../controllers/loginController')
 
 router.route('/logout')
-  .post((req, res) => {
-    req.logout()
-    req.session.destroy((error) => {
-      res.redirect('/')
-    })
-  })
-
+  .post(controller.logoutPost)
 
 module.exports = router

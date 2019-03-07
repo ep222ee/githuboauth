@@ -66,22 +66,17 @@ passport.deserializeUser((user, cb) => {
   cb(null, user)
 })
 
-let passportOauthRedirect = passport.authenticate('github', { scope: ['repo', 'admin:repo_hook'] })
-let passportOauthCallback = passport.authenticate('github', { failureRedirect: '/' })
-
 // Routes.
-app.use('/', require('./routes/api.js'))
-app.use('/', require('./routes/user.js'))
+app.use('/', require('./routes/apiRouter.js'))
+app.use('/', require('./routes/loginRouter.js'))
 
-// oauth routes, move to routes?
+// Oauth Routes
 app.get('/auth/github',
   passport.authenticate('github', { scope: ['repo', 'admin:repo_hook'] }))
 
 app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   (req, res) => {
-    console.log(req.user)
-
     res.redirect('/')
   })
 
