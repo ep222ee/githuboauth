@@ -1,5 +1,8 @@
 'use strict'
 
+
+
+// Requires
 const mongoose = require('./config/mongoose.js')
 const express = require('express')
 const session = require('express-session')
@@ -67,11 +70,17 @@ app.get('/auth/github/callback',
   })
 
 if (process.env.NODE_ENV === 'production') {
-  console.log('production')
-} else {
-  console.log('development')
+  // Https served through reverse proxy in production
+  app.listen(port, () => {
+    console.log(`Express started on http://localhost:${port}`)
+  })
+} else if (process.env.NODE_ENV === 'development') {
+  // Dev https
+  const fs = require('fs')
+  const path = require('path')
+  const privateKey = fs.readFileSync(path.join(__dirname, './config/sslcerts/key.pem'), 'utf8')
+  const cert = fs.readFileSync(path.join(__dirname, './config/sslcerts/cert.pem'), 'utf8')
+  const https = require('https')
+  let httpsServer = https.createServer({key: privateKey, cert: cert}, app)
+  httpsServer.listen(port)
 }
-
-app.listen(port, () => {
-  console.log(`Express started on http://localhost:${port}`)
-})
