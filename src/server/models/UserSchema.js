@@ -17,3 +17,7 @@ let userSchema = new mongoose.Schema({
     required: true
   }
 })
+
+let User = mongoose.model('User', userSchema)
+
+module.exports = User

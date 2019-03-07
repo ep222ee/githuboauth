@@ -8,6 +8,7 @@ let connectionString = `mongodb://${process.env.DB_USER_NAME}:${process.env.DB_P
 
 // disable deprecated method.
 mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true)
 
 module.exports = function () {
   mongoose.connect(connectionString, { useNewUrlParser: true })

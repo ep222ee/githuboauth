@@ -10,11 +10,22 @@ const app = express()
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const githubStrategy = require('./passport/githubStrategy')
+const helmet = require('helmet')
 require('dotenv').config()
 
 const port = 3000
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+// Security settings
+app.disable('x-powered-by')
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'"]
+  }
+}))
+app.use(helmet.frameguard({
+  action: 'deny'
+}))
 
 mongoose()
 
@@ -30,9 +41,10 @@ app.use(session({
   saveUninitialized: true,
   resave: false,
   secret: process.env.SESSION_SECRET,
-  cookies: {
+  cookie: {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24
+    secure: true,
+    maxAge: 1000 * 60 * 60 * 24,
   }
 }))
 
@@ -66,15 +78,17 @@ app.get('/auth/github',
 app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   (req, res) => {
+    console.log('yep')
     res.redirect('/')
   })
 
 if (process.env.NODE_ENV === 'production') {
-  // Https served through reverse proxy in production
+  app.set('trust proxy', 1)
   app.listen(port, () => {
     console.log(`Express started on http://localhost:${port}`)
   })
 } else if (process.env.NODE_ENV === 'development') {
+  console.log(process.env.CALLBACK_URL)
   // Dev https
   const fs = require('fs')
   const path = require('path')
