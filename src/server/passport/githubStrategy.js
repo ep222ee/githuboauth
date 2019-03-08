@@ -12,6 +12,9 @@ const githubOptions = {
 }
 
 module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, profile, cb) => {
+
+  console.log(profile)
+
   User.findOne({githubID: profile.id}, (err, user) => {
     if (!user) {
 
@@ -31,7 +34,8 @@ module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, p
 
   let user = {
     id: profile.id,
-    accessToken: accessToken
+    accessToken: accessToken,
+    username: profile.username
   }
   return cb(null, user)
 })

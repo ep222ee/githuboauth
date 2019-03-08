@@ -1,11 +1,11 @@
 'use strict'
 
+// Github Api Wrapper
 const GitHubApi = require('../models/GitHubApi')
 
 const apiController = {}
 
 apiController.getLoggedInUser = (req, res) => {
-  console.log(req.user)
   let user = {}
   if (req.user) {
     user.isLoggedIn = true
@@ -16,7 +16,9 @@ apiController.getLoggedInUser = (req, res) => {
 }
 
 apiController.getUserOrganizations = (req, res) => {
-  GitHubApi.test()
+  let user = req.user
+  let organizations = GitHubApi.getUserOrganizations(user)
+  let repositories = GitHubApi.getUserRepositories(user)
 }
 
 

@@ -67,7 +67,7 @@ app.use('/', require('./routes/loginRouter.js'))
 
 // Oauth Routes
 app.get('/auth/github',
-  passport.authenticate('github', { scope: ['repo', 'admin:repo_hook'] }))
+  passport.authenticate('github', { scope: ['user', 'repo', 'admin:org', 'read:org', 'admin:repo_hook'] }))
 
 app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
