@@ -27,6 +27,7 @@ GitHubApi.getOrganizationRepos = async (organizations) => {
 let organizationRepos = []
 
     organizations.forEach(async (organization) => {
+      console.log(organization)
       // for each organizations
       // get each associated repo
       // populate array with Objects where
@@ -35,9 +36,7 @@ let organizationRepos = []
             repos: [repoArray]
           }
      */
-    }
-    })
-
+   })
     // return organizationRepos
   } catch (err) {
     console.log(err)
