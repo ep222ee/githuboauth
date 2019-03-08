@@ -1,5 +1,7 @@
 'use strict'
 
+const GitHubApi = require('../models/GitHubApi')
+
 const apiController = {}
 
 apiController.getLoggedInUser = (req, res) => {
@@ -12,5 +14,10 @@ apiController.getLoggedInUser = (req, res) => {
   }
   res.status(200).json(user)
 }
+
+apiController.getUserOrganizations = (req, res) => {
+  GitHubApi.test()
+}
+
 
 module.exports = apiController

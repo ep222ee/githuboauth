@@ -1,7 +1,5 @@
 'use strict'
 
-
-
 // Requires
 const mongoose = require('./config/mongoose.js')
 const express = require('express')
@@ -27,6 +25,7 @@ app.use(helmet.frameguard({
   action: 'deny'
 }))
 
+// Establish db connection
 mongoose()
 
 // Parse json bodies.
@@ -55,14 +54,10 @@ app.use(passport.session())
 
 // Passport session serializing/deserializing.
 passport.serializeUser((user, cb) => {
-  // user object already built in strategy.
-    cb(null, user)
+  cb(null, user)
 })
 
 passport.deserializeUser((user, cb) => {
-  // query db
-  // Check db if the user id is corresponding to an actual user.
-  // if it does, attach to req.session
   cb(null, user)
 })
 
@@ -86,7 +81,6 @@ if (process.env.NODE_ENV === 'production') {
     console.log(`Express started on http://localhost:${port}`)
   })
 } else if (process.env.NODE_ENV === 'development') {
-  console.log(process.env.CALLBACK_URL)
   // Dev https
   const fs = require('fs')
   const path = require('path')
