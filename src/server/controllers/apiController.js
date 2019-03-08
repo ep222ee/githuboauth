@@ -15,10 +15,11 @@ apiController.getLoggedInUser = (req, res) => {
   res.status(200).json(user)
 }
 
-apiController.getUserOrganizations = (req, res) => {
+apiController.getUserOrganizations = async (req, res) => {
   let user = req.user
-  let organizations = GitHubApi.getUserOrganizations(user)
-  let repositories = GitHubApi.getUserRepositories(user)
+  let organizations = await GitHubApi.getUserOrganizations(user)
+  console.log(organizations)
+  let repositories = GitHubApi.getOrganizationRepos(organizations)
 }
 
 

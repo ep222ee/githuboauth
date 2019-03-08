@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 const GitHubApi = {}
 
 GitHubApi.getUserOrganizations = async (user) => {
-
+  try {
     let currentUserOrgUrl = `https://api.github.com/user/orgs`
 
     let organizations = await fetch(currentUserOrgUrl, {
@@ -13,25 +13,37 @@ GitHubApi.getUserOrganizations = async (user) => {
         headers: {
           Authorization: 'token ' + user.accessToken
         }
-      }).then(response => response.json())
-      .catch(err => console.log(err))
+      }).then(res => res.json())
 
-    console.log(organizations)
+    return organizations
+  } catch (err) {
+    console.log(err)
   }
+}
 
-  GitHubApi.getUserRepositories = async (user) => {
+GitHubApi.getOrganizationRepos = async (organizations) => {
+  try {
 
-      let currentUserOrgUrl = `https://api.github.com/user/repos`
+let organizationRepos = []
 
-      let repositories = await fetch(currentUserOrgUrl, {
-          method: 'GET',
-          headers: {
-            Authorization: 'token ' + user.accessToken
+    organizations.forEach(async (organization) => {
+      // for each organizations
+      // get each associated repo
+      // populate array with Objects where
+      /* {
+            organization: orgName
+            repos: [repoArray]
           }
-        }).then(response => response.json())
-        .catch(err => console.log(err))
-
-      console.log(repositories)
+     */
     }
+    })
+
+    // return organizationRepos
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// GitHubApi.setupRepoWebhooks = async () => {}
 
 module.exports = GitHubApi

@@ -13,8 +13,6 @@ const githubOptions = {
 
 module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, profile, cb) => {
 
-  console.log(profile)
-
   User.findOne({githubID: profile.id}, (err, user) => {
     if (!user) {
 
