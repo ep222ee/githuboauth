@@ -17,7 +17,11 @@ class App extends Component {
     getLoggedInUser.send()
 
     getLoggedInUser.onload = () => {
+      console.log('< if')
+      console.log(getLoggedInUser.readyState)
+      console.log(getLoggedInUser.status)
       if (getLoggedInUser.readyState === 4 && getLoggedInUser.status == 200) {
+        console.log(getLoggedInUser.responseText)
           this.setState({
             isLoggedIn: JSON.parse(getLoggedInUser.responseText).isLoggedIn
           })

@@ -64,16 +64,8 @@ passport.deserializeUser((user, cb) => {
 // Routes.
 app.use('/', require('./routes/apiRouter.js'))
 app.use('/', require('./routes/loginRouter.js'))
-// app.use('/', require('./routes/oauthRouter.js'))
-app.get('/auth/github',
-  passport.authenticate('github'));
+app.use('/', require('./routes/oauthRouter.js'))
 
-app.get('/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
 
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1)
