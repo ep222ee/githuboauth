@@ -11,7 +11,7 @@ apiController.getLoggedInUser = async (req, res) => {
   } else {
     user.isLoggedIn = false
   }
-  res.status(200).json(req.user)
+  res.status(200).json(user)
 }
 
 apiController.getUserOrganizations = async (req, res) => {
