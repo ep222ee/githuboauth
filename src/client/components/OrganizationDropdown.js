@@ -4,7 +4,8 @@ class OrganizationDropdown extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      organizations: []
+      organizations: [],
+      selectedOrganization: ''
     }
   }
 
@@ -32,8 +33,9 @@ class OrganizationDropdown extends Component {
 
     return (
       <div>
-        <select>
-          <option key ='defaultOption' value='defaultOption'>Organizations</option>
+        <select value={this.state.selectedOrganization} onChange={(event) => this.setState({
+            selectedOrganization: event.target.value
+          })}>
           {options}
         </select>
       </div>
