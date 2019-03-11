@@ -14,6 +14,7 @@ class App extends Component {
     let getLoggedInUser = new XMLHttpRequest()
     getLoggedInUser.open('GET', '/api/loggedInUser', true) // set true for async
     getLoggedInUser.setRequestHeader('Content-type', 'application/json')
+    getLoggedInUser.send()
 
     getLoggedInUser.onload = () => {
       if (getLoggedInUser.readyState === 4 && getLoggedInUser.status == 200) {
@@ -23,7 +24,7 @@ class App extends Component {
       }
     }
 
-    getLoggedInUser.send()
+
   }
 
   render() {
