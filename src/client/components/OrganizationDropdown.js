@@ -18,6 +18,7 @@ class OrganizationDropdown extends Component {
 
     userOrganizations.onload = () => {
       if (userOrganizations.readyState === 4 && userOrganizations.status == 200) {
+        console.log(userOrganizations.responseText)
           this.setState({
             organizations: JSON.parse(userOrganizations.responseText)
           })
