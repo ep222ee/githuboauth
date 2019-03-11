@@ -66,9 +66,6 @@ app.use('/', require('./routes/apiRouter.js'))
 app.use('/', require('./routes/loginRouter.js'))
 app.use('/', require('./routes/oauthRouter.js'))
 
-// setup socket..
-// setup service worker..
-
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1)
   app.listen(port, () => {

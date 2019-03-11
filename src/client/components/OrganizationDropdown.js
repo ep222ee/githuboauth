@@ -10,7 +10,7 @@ class OrganizationDropdown extends Component {
   }
 
   componentDidMount() {
-
+    console.log('dropdown loaded!') // temp
     let userOrganizations = new XMLHttpRequest()
     userOrganizations.open('GET', '/api/userOrganizations', true) // set true for async
     userOrganizations.setRequestHeader('Content-type', 'application/json')
