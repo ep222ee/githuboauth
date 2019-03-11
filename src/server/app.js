@@ -42,7 +42,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   cookie: {
     httpOnly: true,
-    secure: true,
+    secure: false,
     maxAge: 1000 * 60 * 60 * 24,
   }
 }))
@@ -64,7 +64,17 @@ passport.deserializeUser((user, cb) => {
 // Routes.
 app.use('/', require('./routes/apiRouter.js'))
 app.use('/', require('./routes/loginRouter.js'))
-app.use('/', require('./routes/oauthRouter.js'))
+// app.use('/', require('./routes/oauthRouter.js'))
+
+// Oauth Routes
+app.get('/auth/github',
+  passport.authenticate('github', { scope: ['user', 'admin:repo', 'admin:org', 'read:org', 'admin:repo_hook'] }))
+
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
+  (req, res) => {
+    res.redirect('/')
+  })
 
 
 if (process.env.NODE_ENV === 'production') {

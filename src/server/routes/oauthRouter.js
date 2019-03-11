@@ -6,7 +6,7 @@ const router = require('express').Router()
 const controller = require('../controllers/loginController')
 
 let githubOauth = passport.authenticate('github', { scope: ['user', 'admin:repo', 'admin:org', 'read:org', 'admin:repo_hook'] })
-let githubCallback = passport.authenticate('github', { failureRedirect: '/error' } )
+let githubCallback = passport.authenticate('github', { failureRedirect: '/' } )
 
 router.get('/auth/github', githubOauth)
 
