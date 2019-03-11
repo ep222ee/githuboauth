@@ -13,6 +13,7 @@ loginController.logoutPost = (req, res) => {
 
 
 loginController.oauthLogin = (req, res) => {
+  console.log('oauthLogin')
   res.redirect('/')
 }
 
