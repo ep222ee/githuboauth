@@ -1,10 +1,10 @@
 'use strict'
 
 const GitHubApi = require('../models/GitHubApi')
-
 const loginController = {}
 
 loginController.logoutPost = async (req, res) => {
+  // set logout time for old/new event comparisons?..
   req.logout()
   req.session.destroy((error) => {
     res.redirect('/')
@@ -13,10 +13,6 @@ loginController.logoutPost = async (req, res) => {
 
 
 loginController.oauthLogin = async (req, res) => {
-  console.log('här är vi')
-  // set up webhooks for a users repos..
-  // setup socket..
-  // setup service worker..
   res.redirect('/')
 }
 
