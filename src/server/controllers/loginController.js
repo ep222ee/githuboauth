@@ -3,7 +3,7 @@
 const GitHubApi = require('../models/GitHubApi')
 const loginController = {}
 
-loginController.logoutPost = async (req, res) => {
+loginController.logoutPost = (req, res) => {
   // set logout time for old/new event comparisons?..
   req.logout()
   req.session.destroy((error) => {
@@ -12,7 +12,7 @@ loginController.logoutPost = async (req, res) => {
 }
 
 
-loginController.oauthLogin = async (req, res) => {
+loginController.oauthLogin = (req, res) => {
   res.redirect('/')
 }
 
