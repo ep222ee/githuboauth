@@ -10,8 +10,8 @@ router.route('/api/loggedInUser')
 router.route('/api/userOrganizations')
   .get(controller.getUserOrganizations)
 
-router.route('/api/hooks')
-  .post(controller.setupWebhooks)
+/* router.route('/api/hookSetup')
+  .post(controller.setupWebhooks) */
 
 
 module.exports = router

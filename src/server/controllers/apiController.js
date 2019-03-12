@@ -24,12 +24,13 @@ apiController.getUserOrganizations = async (req, res) => {
   res.status(200).json(data)
 }
 
-apiController.setupWebhooks = async (req, res) => {
+ /* apiController.setupWebhooks = async (req, res) => {
+  console.log('webhook setup')
   // call from client when user has logged in successfully!.
   // let user = req.user
   // let repositories =  await GitHubApi.organizationRepositories(user)
   // await GitHubApi.setupWebhooks (repositories) organizations saved in req.user.organizations.
   // res.status(200)
-}
+}*/
 
 module.exports = apiController

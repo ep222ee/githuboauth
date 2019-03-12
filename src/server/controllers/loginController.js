@@ -12,8 +12,13 @@ loginController.logoutPost = (req, res) => {
 }
 
 
-loginController.oauthLogin = (req, res) => {
-  console.log('oauthLogin')
+loginController.oauthLogin = async (req, res) => {
+  // prefer ajax call to not block initial redirect.
+  // move to ajax for faster initial load..
+  let user = req.user
+  let userOrganizations = await GitHubApi.getUserOrganizations(user)
+  let organizationRepositories = await GitHubApi.getOrganizationRepos(user, userOrganizations)
+  GitHubApi.setupWebhooks(organizationRepositories)
   res.redirect('/')
 }
 

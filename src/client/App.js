@@ -15,9 +15,10 @@ class App extends Component {
   componentDidMount() {
     this.getLoggedInUser()
     this.getUserOrganizations()
+    this.setupWebhooks()
 }
 
-getLoggedInUser() {
+getLoggedInUser () {
   let loggedInUser = new XMLHttpRequest()
   loggedInUser.open('GET', '/api/loggedInUser', true) // set true for async
   loggedInUser.setRequestHeader('Content-type', 'application/json')
@@ -36,7 +37,7 @@ getLoggedInUser() {
   }
 }
 
-getUserOrganizations() {
+getUserOrganizations () {
   let userOrganizations = new XMLHttpRequest()
   userOrganizations.open('GET', '/api/userOrganizations', true) // set true for async
   userOrganizations.setRequestHeader('Content-type', 'application/json')
@@ -44,16 +45,34 @@ getUserOrganizations() {
 
   userOrganizations.onload = () => {
     let data = JSON.parse(userOrganizations.responseText)
-
     if (userOrganizations.readyState === 4 && userOrganizations.status == 200) {
         this.setState({
           organizations: data.organizations
         })
     }
-}
+  }
 }
 
-  render() {
+// maybe move to subcomponent
+ setupWebhooks () {
+   console.log('setupwebhook')
+/*  console.log('innan if')
+    if (this.state.loggedInUser) {
+      console.log('efter if')
+    let hookSetup = new XMLHttpRequest()
+    hookSetup.open('POST', '/api/hookSetup', true) // set true for async
+    hookSetup.setRequestHeader('Content-type', 'application/json')
+    hookSetup.send()
+
+    hookSetup.onload = () => {
+        if (hookSetup.readyState === 4 && hookSetup.status == 200) {
+        console.log('hooks done')
+      }
+    }
+  } */
+}
+
+  render () {
     if (this.state.loggedInUser) {
       return (
         <div>

@@ -8,52 +8,54 @@ GitHubApi.getUserOrganizations = async (user) => {
   try {
     let url = `https://api.github.com/user/orgs`
 
-    let organizations = await fetch(url, {
+    let userOrganizations = await fetch(url, {
         method: 'GET',
         headers: {
           Authorization: 'token ' + user.accessToken
         }
       }).then(res => res.json())
 
-    return organizations
+    return userOrganizations
   } catch (err) {
     console.log(err)
   }
-  // save organizations locally/req.user.organizations...
 }
 
-GitHubApi.getOrganizationRepos = async (user, organizations) => {
+GitHubApi.getOrganizationRepos = async (user, userOrganizations) => {
   try {
 
 let organizationRepos = []
 
-    await organizations.forEach((organization) => {
-      let repo = fetch (organization.repos_url, {
+    await userOrganizations.forEach((organization) => {
+      organizationRepos.push(fetch (organization.repos_url, {
         method: 'GET',
         headers: {
           Authorization: 'token ' + user.accessToken
         }
-      }).then(res => console.log(res.json()))
-      // for each organizations
-      // get each associated repo
-      // populate array with Objects where
-      /* {
-            organization: orgName
-            repos: [repoArray]
-          }
-     */
+      }).then(res => res.json()))
    })
-   return organizationRepos
-    // return organizationRepos
+   let result = await Promise.all(organizationRepos)
+   return result
   } catch (err) {
     console.log(err)
   }
 }
 
-GitHubApi.setupWebhooks = async (user) => {
-  console.log(user)
-}
+GitHubApi.setupWebhooks = async (organizationRepositories) => {
+  try {
+      organizationRepositories.forEach((repos) => {
+      repos.forEach((repo) => {
+        console.log(repo.permissions.admin)
+        if (repo.permissions.admin) {
+          console.log('setup webhook!')
+          // setup webhook for each admin repo..
+        }
+      })
+    })
+  } catch (err) {
+    console.log(err)
+  }
 
-// GitHubApi.setupRepoWebhooks = async () => {}
+}
 
 module.exports = GitHubApi
