@@ -5,19 +5,23 @@ const GitHubApi = require('../models/GitHubApi')
 const apiController = {}
 
 apiController.getLoggedInUser = async (req, res) => {
-  let user = {}
+  let data = {}
   if (req.user) {
-    user.isLoggedIn = true
-  } else {
-    user.isLoggedIn = false
+    data.loggedInUser = req.user.username
+    data.avatar_url = req.user.avatar_url
   }
-  res.status(200).json(user)
+  res.status(200).json(data)
 }
 
 apiController.getUserOrganizations = async (req, res) => {
   let user = req.user
-  let organizations = await GitHubApi.getUserOrganizations(user)
-  res.status(200).json(organizations)
+  let data = {}
+
+  if (user) {
+    data.organizations = await GitHubApi.getUserOrganizations(user)
+  }
+
+  res.status(200).json(data)
 }
 
 apiController.setupWebhooks = async (req, res) => {

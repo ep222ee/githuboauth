@@ -6,42 +6,67 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isLoggedIn: false
+      loggedInUser: '',
+      avatar_url: '',
+      organizations: [],
     }
   }
 
   componentDidMount() {
-    let getLoggedInUser = new XMLHttpRequest()
-    getLoggedInUser.open('GET', '/api/loggedInUser', true) // set true for async
-    getLoggedInUser.setRequestHeader('Content-type', 'application/json')
-    getLoggedInUser.send()
+    this.getLoggedInUser()
+    this.getUserOrganizations()
+}
 
-    getLoggedInUser.onload = () => {
-      if (getLoggedInUser.readyState === 4 && getLoggedInUser.status == 200) {
-          this.setState({
-            isLoggedIn: JSON.parse(getLoggedInUser.responseText).isLoggedIn
-          })
-      }
+getLoggedInUser() {
+  let loggedInUser = new XMLHttpRequest()
+  loggedInUser.open('GET', '/api/loggedInUser', true) // set true for async
+  loggedInUser.setRequestHeader('Content-type', 'application/json')
+  loggedInUser.send()
+
+  loggedInUser.onload = () => {
+    if (loggedInUser.readyState === 4 && loggedInUser.status == 200) {
+      let data = JSON.parse(loggedInUser.responseText)
+
+        this.setState({
+          loggedInUser: data.loggedInUser,
+          avatar_url: data.avatar_url
+        })
+
     }
-
-
   }
+}
+
+getUserOrganizations() {
+  let userOrganizations = new XMLHttpRequest()
+  userOrganizations.open('GET', '/api/userOrganizations', true) // set true for async
+  userOrganizations.setRequestHeader('Content-type', 'application/json')
+  userOrganizations.send()
+
+  userOrganizations.onload = () => {
+    let data = JSON.parse(userOrganizations.responseText)
+
+    if (userOrganizations.readyState === 4 && userOrganizations.status == 200) {
+        this.setState({
+          organizations: data.organizations
+        })
+    }
+}
+}
 
   render() {
-    if (this.state.isLoggedIn) {
+    if (this.state.loggedInUser) {
       return (
         <div>
-          <OrganizationDropdown />
-          <LoginControl isLoggedIn={this.state.isLoggedIn}/>
+          <OrganizationDropdown organizations={this.state.organizations}/>
+          <LoginControl loggedInUser={this.state.loggedInUser}/>
         </div>
       )
     } else {
       return (
         <div>
-          <LoginControl isLoggedIn={this.state.isLoggedIn}/>
+          <LoginControl loggedInUser={this.state.loggedInUser}/>
         </div>
       )
-      console.log('utloggad app')
     }
   }
 }
