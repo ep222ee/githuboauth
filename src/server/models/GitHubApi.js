@@ -24,18 +24,18 @@ GitHubApi.getUserOrganizations = async (user) => {
 GitHubApi.getOrganizationRepos = async (user, userOrganizations) => {
   try {
 
-let organizationRepos = []
+      let organizationRepos = []
 
-    await userOrganizations.forEach((organization) => {
-      organizationRepos.push(fetch (organization.repos_url, {
-        method: 'GET',
-        headers: {
-          Authorization: 'token ' + user.accessToken
-        }
-      }).then(res => res.json()))
-   })
-   let result = await Promise.all(organizationRepos)
-   return result
+      await userOrganizations.forEach((organization) => {
+        organizationRepos.push(fetch (organization.repos_url, {
+          method: 'GET',
+          headers: {
+            Authorization: 'token ' + user.accessToken
+          }
+        }).then(res => res.json()))
+     })
+     let result = await Promise.all(organizationRepos)
+     return result
   } catch (err) {
     console.log(err)
   }
@@ -45,9 +45,9 @@ GitHubApi.setupWebhooks = async (organizationRepositories) => {
   try {
       organizationRepositories.forEach((repos) => {
       repos.forEach((repo) => {
-        console.log(repo.permissions.admin)
+        // console.log(repo.owner)
         if (repo.permissions.admin) {
-          console.log('setup webhook!')
+          // console.log('setup webhook!')
           // setup webhook for each admin repo..
         }
       })
