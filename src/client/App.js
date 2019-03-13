@@ -6,22 +6,40 @@ import OrganizationDropdown from './components/OrganizationDropdown'
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      isLoggedIn: false,
+      userState: {},
+      isFetchingUserState: false
+    }
   }
 
-  // separate loggedInStatus from other stateitems
-  // get something from db?
+  componentWillMount() {
 
-  /* componentWillMount() {
-     // get users logged in session status?
-     // pre first render
-  }*/
+  this.getUserLoggedInStatus()
+  }
 
   componentDidMount() {
     this.getLoggedInUserState()
+
+}
+
+
+getUserLoggedInStatus () {
+  let request = new XMLHttpRequest()
+  request.open('GET', '/api/isLoggedIn', true) // set true for async
+  request.setRequestHeader('Content-type', 'application/json')
+  request.send()
+
+  request.onload = () => {
+    if (request.readyState === 4 && request.status == 200) {
+      let isLoggedIn = JSON.parse(request.responseText)
+        this.setState({isLoggedIn: isLoggedIn})
+    }
+  }
 }
 
 getLoggedInUserState () {
+  this.setState({isFetchingUserState: true})
   let request = new XMLHttpRequest()
   request.open('GET', '/api/loggedInUserState', true) // set true for async
   request.setRequestHeader('Content-type', 'application/json')
@@ -30,25 +48,33 @@ getLoggedInUserState () {
   request.onload = () => {
     if (request.readyState === 4 && request.status == 200) {
       let loggedInUserState = JSON.parse(request.responseText)
-        this.setState(loggedInUserState)
+        this.setState({userState: loggedInUserState})
+        this.setState({isFetchingUserState: false})
 
     }
   }
 }
 
   render () {
-    if (this.state.loggedInUser) {
+    if (this.state.isLoggedIn && this.state.isFetchingUserState) {
       return (
         <div>
-          <OrganizationDropdown organizations={this.state.organizations}/>
-          <LoginControl loggedInUser={this.state.loggedInUser}/>
-          <EventControl repositories= {this.state.repositories}/>
+          <LoginControl isLoggedIn={this.state.isLoggedIn}/>
+          <p>Hämtar organisationer</p>
+        </div>
+      )
+    } else if (this.state.isLoggedIn) {
+      return (
+        <div>
+          <OrganizationDropdown organizations={this.state.userState.organizations}/>
+          <LoginControl isLoggedIn={this.state.isLoggedIn}/>
+          <EventControl repositories= {this.state.userState.repositories}/>
         </div>
       )
     } else {
       return (
         <div>
-          <LoginControl loggedInUser={this.state.loggedInUser}/>
+          <LoginControl isLoggedIn={this.state.isLoggedIn}/>
         </div>
       )
     }

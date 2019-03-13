@@ -6,9 +6,9 @@ class LoginControl extends Component {
   }
 
   render () {
-    const loggedInUser = this.props.loggedInUser
+    const isLoggedIn = this.props.isLoggedIn
 
-    if (loggedInUser) {
+    if (isLoggedIn) {
       return (
         <form method ="post" action="/logout">
           <button type="submit">Logout</button>

@@ -16,17 +16,21 @@ class OrganizationDropdown extends Component {
 
    render () {
      const organizations = this.props.organizations
-     let options = organizations.map((org) =>
-         <option key={org.id} value={org.id}>{org.name}</option>)
-    return (
-      <div>
-        <select value={this.state.selectedOrganization} onChange={(event) => this.setState({
-            selectedOrganization: event.target.value
-          })}>
-          {options}
-        </select>
-      </div>
-    )
+     if (organizations) {
+       let options = organizations.map((org) =>
+           <option key={org.id} value={org.id}>{org.name}</option>)
+      return (
+        <div>
+          <select value={this.state.selectedOrganization} onChange={(event) => this.setState({
+              selectedOrganization: event.target.value
+            })}>
+            {options}
+          </select>
+        </div>
+      )
+    } else {
+      <p>no orgs</p>
+    }
   }
 }
 

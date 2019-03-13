@@ -44,39 +44,7 @@ GitHubApi.getOrganizationRepos = async (user, userOrganizations) => {
 GitHubApi.setupWebhooks = async (user, repositories) => {
 
   await repositories.forEach((repo) => {
-    if (repo.isAdmin) {
-
-      // fetch (repo.hook_url, {
-      //   method: 'GET',
-      //   headers: {
-      //     Authorization: 'token ' + user.accessToken,
-      //
-      //   }
-      // }).then(res => res.json())
-      // .then(data => {
-      //   console.log(data)
-      //   let events = []
-      //   if (data[0]) {
-      //     events = data[0].events
-      //   }
-      //   console.log(events)
-      //   let eventsToSet = []
-      //
-      //   if(!events.includes('issue_comment')) {
-      //     eventsToSet.push('issue_comment')
-      //   }
-      //
-      //   if(!events.includes('push')) {
-      //     eventsToSet.push('push')
-      //   }
-      //
-      //   if (eventsToSet.length > 0) {
-      //     // set insecure_ssl to 0 when not using self-signed.
-      //
-      //   }
-      //
-      //
-      // })
+      
       let hookOptions = {
           name: 'web',
           active: true,
@@ -99,9 +67,6 @@ GitHubApi.setupWebhooks = async (user, repositories) => {
       .then(setHookResponseData => {
         console.log(setHookResponseData)
       })
-
-
-    }
   })
 }
 
