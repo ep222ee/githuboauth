@@ -13,8 +13,8 @@ router.route('/api/userOrganizations')
 /* router.route('/api/isLoggedIn')
     .get(controller.getUserLoggedInStatus) */
 
-/* router.route('/api/hookSetup')
-  .post(controller.setupWebhooks) */
+router.route('/api/hookSetup')
+  .post(controller.setupWebhooks)
 
 
 module.exports = router

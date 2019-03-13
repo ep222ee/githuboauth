@@ -11,9 +11,14 @@ class App extends Component {
 
   // separate loggedInStatus from other stateitems
   // get something from db?
+
+  /* componentWillMount() {
+     // get users logged in session status?
+     // pre first render
+  }*/
+
   componentDidMount() {
     this.getLoggedInUserState()
-    this.setupWebhooks()
 }
 
 getLoggedInUserState () {
@@ -37,7 +42,7 @@ getLoggedInUserState () {
         <div>
           <OrganizationDropdown organizations={this.state.organizations}/>
           <LoginControl loggedInUser={this.state.loggedInUser}/>
-          <EventControl/>
+          <EventControl repositories= {this.state.repositories}/>
         </div>
       )
     } else {

@@ -6,6 +6,7 @@ const apiController = {}
 
 apiController.getLoggedInUserState = async (req, res) => {
   try {
+    // * separate user state from other states?
     let data = {}
     if (req.user) {
       let organizations = await GitHubApi.getUserOrganizations(req.user)
@@ -22,7 +23,6 @@ apiController.getLoggedInUserState = async (req, res) => {
       let repositoriesArr = []
       organizationRepositories.forEach((repos) => {
         repos.forEach((repo) => {
-          console.log(repo)
           let repositorie = {
             id: repo.id,
             name: repo.name,
@@ -51,7 +51,6 @@ apiController.getLoggedInUserState = async (req, res) => {
 apiController.getUserOrganizations = async (req, res) => {
   let user = req.user
   let data = {}
-
   if (user) {
     data.organizations = await GitHubApi.getUserOrganizations(user)
   }
@@ -64,13 +63,15 @@ apiController.getUserOrganizations = async (req, res) => {
   res.status(200).json(loggedInStatus)
 }*/
 
- /* apiController.setupWebhooks = async (req, res) => {
-  console.log('webhook setup')
-  // call from client when user has logged in successfully!.
-  // let user = req.user
-  // let repositories =  await GitHubApi.organizationRepositories(user)
-  // await GitHubApi.setupWebhooks (repositories) organizations saved in req.user.organizations.
-  // res.status(200)
-}*/
+apiController.setupWebhooks = async (req, res) => {
+  try {
+    let user = req.user
+    let repositories = req.body
+    GitHubApi.setupWebhooks(user, repositories)
+    res.status(200).send()
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 module.exports = apiController

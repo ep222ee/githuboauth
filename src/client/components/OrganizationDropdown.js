@@ -9,9 +9,6 @@ class OrganizationDropdown extends Component {
   }
 
   componentDidMount() {
-    console.log('drop mount')
-    console.log(this.state.selectedOrganization)
-    console.log(this.props.organizations[0])
     this.setState({
       selectedOrganization: this.props.organizations[0].id
     })
