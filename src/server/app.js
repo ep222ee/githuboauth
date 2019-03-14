@@ -65,6 +65,7 @@ passport.deserializeUser((user, cb) => {
 app.use('/', require('./routes/apiRouter.js'))
 app.use('/', require('./routes/loginRouter.js'))
 app.use('/', require('./routes/oauthRouter.js'))
+app.use('/', require('./routes/webhookRouter.js'))
 
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1)

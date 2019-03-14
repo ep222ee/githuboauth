@@ -44,13 +44,13 @@ GitHubApi.getOrganizationRepos = async (user, userOrganizations) => {
 GitHubApi.setupWebhooks = async (user, repositories) => {
 
   await repositories.forEach((repo) => {
-      
+
       let hookOptions = {
           name: 'web',
           active: true,
-          events: ['issue_comment', 'push'],
+          events: ['issue_comment', 'push', 'issues', 'release'],
           config: {
-            url: 'https://localhost:3000/webhooks',
+            url: `${process.env.HOOK_CALLBACK_URL}`,
             content_type: 'json',
             insecure_ssl: '1'
           }
