@@ -101,13 +101,18 @@ if (process.env.NODE_ENV === 'production') {
 let io = socket(server)
 io.use(sharedsession(session))
 
-const controller = require('./controllers/socketController')
-
 io.on('connection', (socket) => {
-  io.emit('test', 'hej klienten')
-  console.log('socket connected')
+  const controller = require('./controllers/socketController')
+
+
+  io.emit('test', 'hej klient1')
+  io.emit('test', 'hej klient2')
   let userID = socket.handshake.session.passport.user.id
   let socketID = (socket.id)
   controller.setUserSocketID(userID, socketID)
 
-})
+  socket.on('disconnect', () => {
+    console.log('disconnected socket')
+      controller.removeUserSocketID(socketID)
+    })
+  })

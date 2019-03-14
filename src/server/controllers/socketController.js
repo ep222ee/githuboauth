@@ -1,17 +1,27 @@
 'use strict'
-
+const Socket = require('../models/SocketSchema')
 const socketController = {}
 
-socketController.setUserSocketID = (userID, socketID) => {
+socketController.setUserSocketID = async (userID, socketID) => {
   console.log('setting user id and socket id..')
-  console.log(userID)
-  console.log(socketID)
-  // save to mongoDB!
+
+  let newSocket = new Socket({
+    userID: userID,
+    socketID: socketID,
+  })
+
+  await newSocket.save((err, socket) => {
+    if (err) console.log(err)
+    console.log(socket)
+  })
 }
 
-socketController.removeUserSocketID = (userID, socketID) => {
+socketController.removeUserSocketID = async (socketID) => {
   console.log('removing user id and socket id..')
-  // remove from mongoDB!
+  console.log(socketID)
+  await Socket.findOneAndRemove({ socketID: socketID }, (err) => {
+    if (err) console.log(err)
+  })
 }
 
 module.exports = socketController
