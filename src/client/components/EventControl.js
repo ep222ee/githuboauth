@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import socketIOClient from 'socket.io-client'
+import io from 'socket.io-client'
 
 class EventControl extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ hookSetup () {
 }
 
 socketConnect() {
-  let socket = socketIOClient(this.state.socketUrl)
+  let socket = io(this.state.socketUrl)
   socket.on('test', (message) => {
     console.log(message)
     this.setState({socketMessage: message})
