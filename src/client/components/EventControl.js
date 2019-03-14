@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+import socketIOClient from 'socket.io-client'
 
 class EventControl extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      socketUrl: 'localhost:3000',
+      socketMessage: ''
+    }
   }
 
 
@@ -10,6 +15,7 @@ componentDidMount() {
   console.log('mount')
   console.log(this.props.repositories)
   this.hookSetup()
+  this.socketConnect()
 }
 
 hookSetup () {
@@ -25,6 +31,14 @@ hookSetup () {
       console.log('hooks done')
     }
   }
+}
+
+socketConnect() {
+  let socket = socketIOClient(this.state.socketUrl)
+  socket.on('test', (message) => {
+    console.log(message)
+    this.setState({socketMessage: message})
+  })
 }
 
 

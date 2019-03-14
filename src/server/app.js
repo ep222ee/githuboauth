@@ -9,16 +9,20 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const githubStrategy = require('./passport/githubStrategy')
 const helmet = require('helmet')
+const socket = require('socket.io')
 require('dotenv').config()
 
 const port = 3000
 
 // Security settings
 app.disable('x-powered-by')
+
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'"]
+    styleSrc: ["'self'"],
+    connectSrc : ["'self'", `${process.env.WSS_URL}`, `${process.env.WS_URL}`]
+    // imgSrc : ["'self'", `github..`]
   }
 }))
 app.use(helmet.frameguard({
@@ -67,11 +71,17 @@ app.use('/', require('./routes/loginRouter.js'))
 app.use('/', require('./routes/oauthRouter.js'))
 app.use('/', require('./routes/webhookRouter.js'))
 
+
+let server
+
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1)
-  app.listen(port, () => {
+  server = app.listen(port, () => {
     console.log(`Express started on http://localhost:${port}`)
   })
+
+
+
 } else if (process.env.NODE_ENV === 'development') {
   // Dev https
   const fs = require('fs')
@@ -81,5 +91,15 @@ if (process.env.NODE_ENV === 'production') {
   const https = require('https')
   let httpsServer = https.createServer({key: privateKey, cert: cert}, app)
   console.log(`Express Dev server started on http://localhost:${port}`)
-  httpsServer.listen(port)
+  server = httpsServer.listen(port)
 }
+
+let io = socket(server)
+
+io.on('connection', (socket) => {
+  console.log('socket connected')
+  console.log(socket.id)
+  io.emit('test', 'hej klienten')
+})
+
+console.log(io)
