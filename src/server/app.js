@@ -29,7 +29,6 @@ const port = 3000
 
 // Security settings
 app.disable('x-powered-by')
-
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
@@ -50,7 +49,6 @@ app.use(bodyParser.json())
 
 // Before session to not serve additional sessions with the statics.
 app.use(express.static('dist'))
-
 
 // Session setup, needs to be set up before passport setup.
 app.use(session)
@@ -75,16 +73,13 @@ app.use('/', require('./routes/loginRouter.js'))
 app.use('/', require('./routes/oauthRouter.js'))
 app.use('/', require('./routes/webhookRouter.js'))
 
-
+// Setup Server
 let server
-
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1)
   server = app.listen(port, () => {
     console.log(`Express started on http://localhost:${port}`)
   })
-
-
 
 } else if (process.env.NODE_ENV === 'development') {
   // Dev https
@@ -98,21 +93,22 @@ if (process.env.NODE_ENV === 'production') {
   server = httpsServer.listen(port)
 }
 
+// Setup Socket
 let io = socket(server)
 io.use(sharedsession(session))
+// Attach to request for controller
+app.io = io
 
 io.on('connection', (socket) => {
+  io.emit('payload', 'hi client')
+  console.log('client connected')
   const controller = require('./controllers/socketController')
-
-
-  io.emit('test', 'hej klient1')
-  io.emit('test', 'hej klient2')
   let userID = socket.handshake.session.passport.user.id
   let socketID = (socket.id)
   controller.setUserSocketID(userID, socketID)
 
   socket.on('disconnect', () => {
-    console.log('disconnected socket')
-      controller.removeUserSocketID(socketID)
-    })
+    console.log('socket disconnected')
+    controller.removeUserSocketID(socketID)
   })
+})

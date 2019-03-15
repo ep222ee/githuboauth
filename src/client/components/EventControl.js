@@ -12,8 +12,6 @@ class EventControl extends Component {
 
 
 componentDidMount() {
-  console.log('mount')
-  console.log(this.props.repositories)
   this.hookSetup()
   this.socketConnect()
 }
@@ -35,7 +33,7 @@ hookSetup () {
 
 socketConnect() {
   let socket = io(this.state.socketUrl)
-  socket.on('test', (message) => {
+  socket.on('payload', (message) => {
     console.log(message)
     this.setState({socketMessage: message})
   })

@@ -3,8 +3,6 @@ const Socket = require('../models/SocketSchema')
 const socketController = {}
 
 socketController.setUserSocketID = async (userID, socketID) => {
-  console.log('setting user id and socket id..')
-
   let newSocket = new Socket({
     userID: userID,
     socketID: socketID,
@@ -17,8 +15,6 @@ socketController.setUserSocketID = async (userID, socketID) => {
 }
 
 socketController.removeUserSocketID = async (socketID) => {
-  console.log('removing user id and socket id..')
-  console.log(socketID)
   await Socket.findOneAndRemove({ socketID: socketID }, (err) => {
     if (err) console.log(err)
   })
