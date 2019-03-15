@@ -5,7 +5,7 @@ class EventControl extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      socketUrl: '134.209.94.122',
+      socketUrl: '174.138.15.167',
       socketMessage: ''
     }
   }
