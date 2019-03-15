@@ -7,7 +7,7 @@ class EventControl extends Component {
     super(props)
     this.state = {
       // '174.138.15.167'
-      socketUrl: '174.138.15.167',
+      socketUrl: 'localhost:3000',
       socketMessage: ''
     }
   }
@@ -23,13 +23,13 @@ componentDidMount() {
 setupNotificationsSW() {
   let vapidPublicKey = 'BMx-gNAsZkgljx9P3rz9vepkQ2eErW6qzV5y4e3tx-YoCN7VRqZY9_5m-1aPuCuY92hLCn-tD_QYAnTRVazCxpg'
   if ('serviceWorker' in navigator) {
-    this.send().catch(err => console.error(err))
+    this.send().catch(err => console.log(err))
   }
 }
 
 async send() {
   console.log('register sw')
-  let reg = await navigator.serviceWorker.register('sw.js', {
+  let reg = await navigator.serviceWorker.register('./sw.js', {
     scope: '/'
   })
   console.log('service worker registered.')

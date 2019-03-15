@@ -73,6 +73,20 @@ app.use('/', require('./routes/loginRouter.js'))
 app.use('/', require('./routes/oauthRouter.js'))
 app.use('/', require('./routes/webhookRouter.js'))
 
+// push notification service workers
+const webpush = require('web-push')
+const vapidPublicKey = process.env.VAPID_PUBLIC
+const vapidPrivateKey = process.env.VAPID_PRIVATE
+webpush.setVapidDetails(process.env.MAIL_TO, vapidPublicKey, vapidPrivateKey)
+
+app.post('/subscribeToPush', (req, res) => {
+  let subscription = req.body
+  res.status(201).json({})
+
+  let payload = JSON.stringify({ title: 'testar web push'})
+  webpush.sendNotification(subscription, payload).catch(err => console.log(err))
+})
+
 // Setup Server
 let server
 if (process.env.NODE_ENV === 'production') {
@@ -112,18 +126,3 @@ io.on('connection', (socket) => {
     controller.removeUserSocketID(socketID)
   })
 })
-
-
-// // push notification service workers
-// const webpush = require('web-push')
-// const vapidPublicKey = process.env.VAPID_PUBLIC
-// const vapidPrivateKey = process.env.VAPID_PRIVATE
-// webpush.setVapidDetails(process.env.MAIL_TO, vapidPublicKey, vapidPrivateKey)
-//
-// app.post('/subscribeToPush', (req, res) => {
-//   let subscription = req.body
-//   res.status(201).json({})
-//
-//   let payload = JSON.stringify({ title: 'testar web push'})
-//   webpush.sendNotification(subscription, payload).catch(err => console.log(err))
-// })
