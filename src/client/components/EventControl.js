@@ -21,7 +21,7 @@ componentDidMount() {
 }
 
 setupNotificationsSW() {
-  let vapidPublicKey = 'BMx-gNAsZkgljx9P3rz9vepkQ2eErW6qzV5y4e3tx-YoCN7VRqZY9_5m-1aPuCuY92hLCn-tD_QYAnTRVazCxpg'
+
   if ('serviceWorker' in navigator) {
     this.send().catch(err => console.log(err))
   }
@@ -29,6 +29,7 @@ setupNotificationsSW() {
 
 async send() {
   console.log('register sw')
+  let vapidPublicKey = 'BMx-gNAsZkgljx9P3rz9vepkQ2eErW6qzV5y4e3tx-YoCN7VRqZY9_5m-1aPuCuY92hLCn-tD_QYAnTRVazCxpg'
   let reg = await navigator.serviceWorker.register('./sw.js', {
     scope: '/'
   })
