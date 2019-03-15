@@ -35,7 +35,7 @@ async send() {
   console.log('service worker registered.')
 
   console.log('Register push')
-  let subscription = await register.pushManager.subscribe({
+  let subscription = await reg.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: this.urlBase64ToUint8Array(vapidPublicKey)
   })
