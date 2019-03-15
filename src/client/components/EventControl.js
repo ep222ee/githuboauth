@@ -23,7 +23,7 @@ componentDidMount() {
 setupNotificationsSW() {
 
   if ('serviceWorker' in navigator) {
-    this.send().catch(err => console.log(err))
+    this.send().catch(err => console.error(err))
   }
 }
 
@@ -33,6 +33,9 @@ async send() {
   let reg = await navigator.serviceWorker.register('./sw.js', {
     scope: '/'
   })
+
+  await navigator.serviceWorker.ready
+
   console.log('service worker registered.')
 
   console.log('Register push')

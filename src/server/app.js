@@ -80,7 +80,8 @@ const vapidPrivateKey = process.env.VAPID_PRIVATE
 webpush.setVapidDetails(process.env.MAIL_TO, vapidPublicKey, vapidPrivateKey)
 
 app.post('/subscribe', (req, res) => {
-  let subscription = req.body
+  console.log(req.body.subscription)
+  let subscription = req.body.subscription
   res.status(201).json({})
 
   let payload = JSON.stringify({ title: 'testar web push'})
@@ -117,12 +118,15 @@ io.on('connection', (socket) => {
   io.emit('payload', 'hi client')
   console.log('client connected')
   const controller = require('./controllers/socketController')
-  let userID = socket.handshake.session.passport.user.id
-  let socketID = (socket.id)
-  controller.setUserSocketID(userID, socketID)
 
-  socket.on('disconnect', () => {
-    console.log('socket disconnected')
-    controller.removeUserSocketID(socketID)
-  })
+  if (socket.handshake.session.passport) {
+    let userID = socket.handshake.session.passport.user.id
+    let socketID = (socket.id)
+    controller.setUserSocketID(userID, socketID)
+
+    socket.on('disconnect', () => {
+      console.log('socket disconnected')
+      controller.removeUserSocketID(socketID)
+    })
+  }
 })

@@ -102,10 +102,7 @@ apiController.setupWebhooks = async (req, res) => {
           }
         })
       })
-    } else {
-      console.log('dont save')
-    }
-
+    } 
     res.status(200).json()
   } catch (err) {
     console.log(err)
