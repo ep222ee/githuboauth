@@ -78,7 +78,7 @@ hookSetup () {
 
   request.onload = () => {
       if (request.readyState === 4 && request.status == 200) {
-
+        console.log('hook setup complete')
     }
   }
 }

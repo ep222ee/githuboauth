@@ -106,7 +106,7 @@ apiController.setupWebhooks = async (req, res) => {
       console.log('dont save')
     }
 
-    res.status(200).send()
+    res.status(200).json()
   } catch (err) {
     console.log(err)
   }
