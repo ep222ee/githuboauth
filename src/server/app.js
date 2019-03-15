@@ -114,16 +114,16 @@ io.on('connection', (socket) => {
 })
 
 
-// push notification service workers
-const webpush = require('web-push')
-const vapidPublicKey = process.env.VAPID_PUBLIC
-const vapidPrivateKey = process.env.VAPID_PRIVATE
-webpush.setVapidDetails(process.env.MAIL_TO, vapidPublicKey, vapidPrivateKey)
-
-app.post('/subscribeToPush', (req, res) => {
-  let subscription = req.body
-  res.status(201).json({})
-
-  let payload = JSON.stringify({ title: 'testar web push'})
-  webpush.sendNotification(subscription, payload).catch(err => console.log(err))
-})
+// // push notification service workers
+// const webpush = require('web-push')
+// const vapidPublicKey = process.env.VAPID_PUBLIC
+// const vapidPrivateKey = process.env.VAPID_PRIVATE
+// webpush.setVapidDetails(process.env.MAIL_TO, vapidPublicKey, vapidPrivateKey)
+//
+// app.post('/subscribeToPush', (req, res) => {
+//   let subscription = req.body
+//   res.status(201).json({})
+//
+//   let payload = JSON.stringify({ title: 'testar web push'})
+//   webpush.sendNotification(subscription, payload).catch(err => console.log(err))
+// })
