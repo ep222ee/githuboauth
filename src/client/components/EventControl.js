@@ -28,23 +28,15 @@ setupNotificationsSW() {
 }
 
 async send() {
-  console.log('register sw')
   let vapidPublicKey = 'BMx-gNAsZkgljx9P3rz9vepkQ2eErW6qzV5y4e3tx-YoCN7VRqZY9_5m-1aPuCuY92hLCn-tD_QYAnTRVazCxpg'
   let reg = await navigator.serviceWorker.register('./sw.js', {
     scope: '/'
   })
-
   await navigator.serviceWorker.ready
-
-  console.log('service worker registered.')
-
-  console.log('Register push')
   let subscription = await reg.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: this.urlBase64ToUint8Array(vapidPublicKey)
   })
-  console.log('Push regged')
-  console.log('Send push')
   await fetch('/subscribe', {
     method: 'POST',
     body: JSON.stringify({subscription}),
@@ -52,44 +44,39 @@ async send() {
       'content-type': 'application/json'
     }
   })
-  console.log('push sent')
-
 }
 
+// thanks to https://github.com/web-push-libs/web-push
 urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding)
     .replace(/-/g, '+')
-    .replace(/_/g, '/');
-
+    .replace(/_/g, '/')
   const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
+  const outputArray = new Uint8Array(rawData.length)
 
   for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
+    outputArray[i] = rawData.charCodeAt(i)
   }
-  return outputArray;
+  return outputArray
 }
 
-hookSetup () {
-
- let request = new XMLHttpRequest()
- let jsonRepositories = JSON.stringify(this.props.repositories)
-  request.open('POST', '/api/hookSetup', true) // set true for async
-  request.setRequestHeader('Content-type', 'application/json')
-  request.send(jsonRepositories)
-
-  request.onload = () => {
-      if (request.readyState === 4 && request.status == 200) {
-        console.log('hook setup complete')
+async hookSetup () {
+  let jsonRepositories = JSON.stringify(this.props.repositories)
+  await fetch('/api/hookSetup', {
+    method: 'POST',
+    body: jsonRepositories,
+    headers: {
+      'content-type': 'application/json'
     }
-  }
+  })
 }
 
 socketConnect() {
   let socket = io(this.state.socketUrl)
   socket.on('payload', (message) => {
-    console.log(message)
+    console.log(message) // temp
+    // setState. update stateArray
     this.setState({socketMessage: message})
   })
 }

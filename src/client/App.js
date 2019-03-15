@@ -17,40 +17,35 @@ class App extends Component {
   this.getUserLoggedInStatus()
   }
 
-  componentDidMount() {
-    this.getLoggedInUserState()
+  async componentDidMount() {
+    await this.getLoggedInUserState()
 }
 
 
-getUserLoggedInStatus () {
-  let request = new XMLHttpRequest()
-  request.open('GET', '/api/isLoggedIn', true) // set true for async
-  request.setRequestHeader('Content-type', 'application/json')
-  request.send()
-
-  request.onload = () => {
-    if (request.readyState === 4 && request.status == 200) {
-      let isLoggedIn = JSON.parse(request.responseText)
-        this.setState({isLoggedIn: isLoggedIn})
+async getUserLoggedInStatus () {
+  let response = await fetch('/api/isLoggedIn', {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json'
     }
-  }
+  })
+  let isLoggedIn = await response.json()
+  this.setState({isLoggedIn: isLoggedIn})
 }
 
-getLoggedInUserState () {
+async getLoggedInUserState () {
   this.setState({isFetchingUserState: true})
-  let request = new XMLHttpRequest()
-  request.open('GET', '/api/loggedInUserState', true) // set true for async
-  request.setRequestHeader('Content-type', 'application/json')
-  request.send()
-
-  request.onload = () => {
-    if (request.readyState === 4 && request.status == 200) {
-      let loggedInUserState = JSON.parse(request.responseText)
-        this.setState({userState: loggedInUserState})
-        this.setState({isFetchingUserState: false})
-
+  let response = await fetch('/api/loggedInUserState', {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json'
     }
-  }
+  })
+  let loggedInUserState = await response.json()
+  this.setState({
+    userState: loggedInUserState,
+    isFetchingUserState: false
+  })
 }
 
   render () {
