@@ -7,7 +7,7 @@ class EventControl extends Component {
     super(props)
     this.state = {
       // '174.138.15.167'
-      socketUrl: '174.138.15.167',
+      socketUrl: 'localhost:3000', // temp
       socketMessage: ''
     }
   }
