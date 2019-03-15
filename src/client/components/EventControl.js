@@ -5,6 +5,7 @@ class EventControl extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      // '174.138.15.167'
       socketUrl: '174.138.15.167',
       socketMessage: ''
     }
@@ -12,7 +13,9 @@ class EventControl extends Component {
 
 
 componentDidMount() {
-  this.hookSetup()
+  if (this.props.repositories && this.props.repositories.length > 0) {
+    this.hookSetup()
+  }
   this.socketConnect()
 }
 

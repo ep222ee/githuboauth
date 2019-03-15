@@ -9,16 +9,26 @@ class OrganizationDropdown extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      selectedOrganization: this.props.organizations[0].id
-    })
+    if (this.props.organizations && this.props.organizations.length >0) {
+      this.setState({
+        selectedOrganization: this.props.organizations[0].id
+      })
+    }
+
 }
 
    render () {
      const organizations = this.props.organizations
-     if (organizations) {
-       let options = organizations.map((org) =>
+     console.log(organizations)
+     let options
+     if (organizations && organizations.length > 0) {
+       console.log('if')
+       options = organizations.map((org) =>
            <option key={org.id} value={org.id}>{org.name}</option>)
+       } else {
+         console.log('else')
+       options = <option key={'no org'} value={'no org'}>You have no organizations</option>
+       }
       return (
         <div>
           <select value={this.state.selectedOrganization} onChange={(event) => this.setState({
@@ -28,9 +38,6 @@ class OrganizationDropdown extends Component {
           </select>
         </div>
       )
-    } else {
-      <p>no orgs</p>
-    }
   }
 }
 
