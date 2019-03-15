@@ -3,8 +3,6 @@ import LoginControl from './components/LoginControl'
 import EventControl from './components/EventControl'
 import OrganizationDropdown from './components/OrganizationDropdown'
 
-import io from 'socket.io-client' // temp
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -16,7 +14,6 @@ class App extends Component {
   }
 
   componentWillMount() {
-
   this.getUserLoggedInStatus()
   }
 

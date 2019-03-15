@@ -19,14 +19,11 @@ class OrganizationDropdown extends Component {
 
    render () {
      const organizations = this.props.organizations
-     console.log(organizations)
      let options
      if (organizations && organizations.length > 0) {
-       console.log('if')
        options = organizations.map((org) =>
            <option key={org.id} value={org.id}>{org.name}</option>)
        } else {
-         console.log('else')
        options = <option key={'no org'} value={'no org'}>You have no organizations</option>
        }
       return (
