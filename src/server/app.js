@@ -79,7 +79,7 @@ const vapidPublicKey = process.env.VAPID_PUBLIC
 const vapidPrivateKey = process.env.VAPID_PRIVATE
 webpush.setVapidDetails(process.env.MAIL_TO, vapidPublicKey, vapidPrivateKey)
 
-app.post('/subscribeToPush', (req, res) => {
+app.post('/subscribe', (req, res) => {
   let subscription = req.body
   res.status(201).json({})
 
