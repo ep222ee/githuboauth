@@ -4,13 +4,27 @@ const Setting = require('../models/SettingSchema')
 
 const settingsController = {}
 
-settingsController.getSettings = (req, res) => {
-  console.log('get settings')
-}
+settingsController.postSettings = async (req, res) => {
+  if(req.body.isSet) {
+    // save
+    let newSetting = new Setting({
+      userID: req.user.id,
+      repoID: req.body.repoID,
+      eventType: req.body.eventType
+    })
 
+    await newSetting.save((err, data) => {
+      if (err) {
+        console.log(err)
+      }
+      res.status(200).json({id: data._id})
+    })
 
-settingsController.postSettings = (req, res) => {
-  console.log('post settings')
+  } else {
+    // delete
+    await Setting.findByIdAndDelete(req.body.eventID)
+    res.status(200).json({id: '-1'})
+  }
 }
 
 module.exports = settingsController

@@ -8,6 +8,7 @@ class RepositorySettings extends Component {
       eventSettings: this.getEventSettings()
     }
     this.setSettingCallback = this.setSettingCallback.bind(this)
+    this.disableSettingCallback = this.disableSettingCallback.bind(this)
   }
 
 
@@ -15,36 +16,90 @@ getEventSettings() {
   let eventSettingTypes = ['issues', 'issue_comment', 'push']
   let eventSettings = []
   eventSettingTypes.forEach((eventType) => {
-    eventSettings.push({
-      name: eventType,
-      isSet: true //this.props.repository.settings.includes(eventType)
+
+    let matchingEventTypes = this.props.repository.settings.filter((setting) => {
+      return setting.eventType === eventType
     })
+    if (matchingEventTypes && matchingEventTypes.length > 0) {
+      eventSettings.push(matchingEventTypes[0])
+    } else {
+      eventSettings.push({
+        eventType: eventType,
+        eventID: '-1',
+        isSet: false
+      })
+    }
   })
   return eventSettings
 }
 
-setSettingCallback(event) {
+setSettingCallback(event, eventID) {
+  let eventType = event.target.value
+  fetch('/settings', {
+    method: 'POST',
+    body: JSON.stringify({
+      repoID: this.props.repository.id,
+      eventType: event.target.value,
+      isSet: event.target.checked,
+      eventID: eventID
+    }),
+    headers: {
+      'content-type': 'application/json'
+    }
+  }).then(res => res.json())
+  .then(res => this.setSettingState(eventType, res.id))
+}
+
+setSettingState(eventType, id) {
+  console.log(id)
   let newState = Object.assign({}, this.state)
 
   newState.eventSettings.forEach((eventSetting) => {
-    if (eventSetting.name === event.target.value) {
+    if (eventSetting.eventType === eventType) {
       eventSetting.isSet = !eventSetting.isSet
+      eventSetting.eventID = id
+      eventSetting.disabled = false
     }
   })
   this.setState(newState)
-  this.saveSetting(event)
+
 }
 
-  saveSetting(event) {
-    console.log(this.props.repository.id)
-    console.log(event.target.value)
-    console.log(event.target.checked)
+disableSettingCallback (eventType) {
+  let newState = Object.assign({}, this.state)
+
+  newState.eventSettings.forEach((eventSetting) => {
+    if (eventSetting.eventType === eventType) {
+      eventSetting.disabled = true
+    }
+  })
+  this.setState(newState)
+}
+
+
+  async saveSetting(event, eventID) {
+    let id
+    await fetch('/settings', {
+      method: 'POST',
+      body: JSON.stringify({
+        repoID: this.props.repository.id,
+        eventType: event.target.value,
+        isSet: event.target.checked,
+        eventID: eventID
+      }),
+      headers: {
+        'content-type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then(res => id = res.id)
+    console.log(id)
+    return id
   }
 
   render () {
 
     let eventSettings = this.state.eventSettings.map((eventSetting) =>
-      <RepositoryEventSetting eventSetting = {eventSetting} setSettingCallback={this.setSettingCallback}/>
+      <RepositoryEventSetting eventSetting = {eventSetting} setSettingCallback={this.setSettingCallback} disableSettingCallback={this.disableSettingCallback}/>
     )
 
     return (

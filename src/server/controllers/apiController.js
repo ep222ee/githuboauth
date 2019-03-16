@@ -22,9 +22,11 @@ apiController.getLoggedInUserState = async (req, res) => {
 
       let organizationRepositories = await GitHubApi.getOrganizationRepos(req.user, organizations)
       let repositoriesArr = []
-      organizationRepositories.forEach((repos) => {
-        repos.forEach((repo) => {
 
+      for (let i = 0; i < organizationRepositories.length; i++) {
+        let repos = organizationRepositories[i]
+        for (let j = 0; j < repos.length; j++) {
+          let repo = repos[j]
           let repository = {
             id: repo.id,
             name: repo.name,
@@ -37,20 +39,27 @@ apiController.getLoggedInUserState = async (req, res) => {
           }
           if (repository.isAdmin) {
             repository.settings = []
-            let repoSettings = Setting.find({userID: req.user.id, repoID: repo.id}, (err, data) => {
-              data.forEach((setting) => {
-                repository.settings.push(setting.eventType)
+            let repoSettings = await Setting.find({userID: req.user.id, repoID: repo.id}, (err, settings) => {
+              if (err) {
+                console.log(err)
+              }
+              settings.forEach((setting) => {
+                repository.settings.push({
+                  eventType: setting.eventType,
+                  eventID: setting._id,
+                  isSet: true
+                })
               })
             })
           }
           repositoriesArr.push(repository)
-        })
-      })
+        }
+      }
 
-        data.loggedInUser = req.user.username
-        data.avatar_url = req.user.avatar_url
-        data.organizations = organizationsArr
-        data.repositories = repositoriesArr
+      data.loggedInUser = req.user.username
+      data.avatar_url = req.user.avatar_url
+      data.organizations = organizationsArr
+      data.repositories = repositoriesArr
     }
     res.status(200).json(data)
   } catch (err) {

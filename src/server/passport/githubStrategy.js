@@ -22,7 +22,7 @@ module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, p
         avatar_url: profile._json.avatar_url
       })
 
-      newUser.save((err, user) => {
+      newUser.save((err, newUser) => {
         if (err) {
           console.log(err)
         }
