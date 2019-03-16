@@ -5,26 +5,16 @@ const Socket = require('../models/SocketSchema')
 const webhookController = {}
 
 webhookController.payloadPost = async (req, res) => { // async
-  console.log('hook triggered')
-  console.log('_"#&_"#&_"#_&_"&#_')
-  console.log('_"#&_"#&_"#_&_"&#_')
-  console.log('_"#&_"#&_"#_&_"&#_')
-  console.log('_"#&_"#&_"#_&_"&#_')
-  console.log('_"#&_"#&_"#_&_"&#_')
-  console.log('_"#&_"#&_"#_&_"&#_')
-  console.log('_"#&_"#&_"#_&_"&#_')
 
-  let hookRepository = req.body.repository.id // vilket repo skickar payloaden?
-  let hookSubscribers = await Webhook.find({ repoID: hookRepository }) // hämta user som är subbad på repot
-
+  let hookRepository = req.body.repository.id
+  let hookSubscribers = await Webhook.find({ repoID: hookRepository })
 
   // Send to active subscribed user sockets.
   let activeClients = []
   for (let i = 0; i < hookSubscribers.length; i++) { // för varje subscriber
     let activeClient = await Socket.find({ userID: hookSubscribers[i].userID})
     activeClients.push(activeClient)
-    //console.log(activeClients)
-  }
+    }
 
   if (activeClients.length > 0) {
 
@@ -74,6 +64,12 @@ webhookController.payloadPost = async (req, res) => { // async
       })
     })
   }
+
+  // foreach hookSubscribers
+  // get settings
+  // if settings if userSettings for eventtype is true
+  // get user subscriptions
+  // webpush
   // check subscribed service workers.
   // send serviceWorker notification based on settings
   // payload source expects 200

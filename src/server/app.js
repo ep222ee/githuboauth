@@ -72,21 +72,25 @@ app.use('/', require('./routes/apiRouter.js'))
 app.use('/', require('./routes/loginRouter.js'))
 app.use('/', require('./routes/oauthRouter.js'))
 app.use('/', require('./routes/webhookRouter.js'))
+app.use('/', require('./routes/swRouter.js'))
+app.use('/', require('./routes/settingsRouter.js'))
 
-// push notification service workers
+// Setup Service worker for push notifications.
 const webpush = require('web-push')
 const vapidPublicKey = process.env.VAPID_PUBLIC
 const vapidPrivateKey = process.env.VAPID_PRIVATE
 webpush.setVapidDetails(process.env.MAIL_TO, vapidPublicKey, vapidPrivateKey)
 
-app.post('/subscribe', (req, res) => {
-  console.log(req.body.subscription)
-  let subscription = req.body.subscription
-  res.status(201).json({})
-
-  let payload = JSON.stringify({ title: 'testar web push'})
-  webpush.sendNotification(subscription, payload).catch(err => console.log(err))
-})
+// app.post('/subscribe', (req, res) => {
+//   let subscription = req.body.subscription
+//   res.status(201).json({})
+//
+//   let payload = JSON.stringify({
+//      title: 'testar web push2',
+//      body: 'test body'
+//    })
+//   webpush.sendNotification(subscription, payload).catch(err => console.log(err))
+// })
 
 // Setup Server
 let server
@@ -116,7 +120,6 @@ app.io = io
 
 io.on('connection', (socket) => {
   io.emit('payload', 'hi client')
-  console.log('client connected')
   const controller = require('./controllers/socketController')
 
   if (socket.handshake.session.passport) {
@@ -125,7 +128,6 @@ io.on('connection', (socket) => {
     controller.setUserSocketID(userID, socketID)
 
     socket.on('disconnect', () => {
-      console.log('socket disconnected')
       controller.removeUserSocketID(socketID)
     })
   }

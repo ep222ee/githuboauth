@@ -10,7 +10,6 @@ socketController.setUserSocketID = async (userID, socketID) => {
 
   await newSocket.save((err, socket) => {
     if (err) console.log(err)
-    console.log(socket)
   })
 }
 

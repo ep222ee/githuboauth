@@ -9,13 +9,21 @@ class OrganizationDropdown extends Component {
   }
 
   componentDidMount() {
-    if (this.props.organizations && this.props.organizations.length >0) {
+    if (this.props.organizations && this.props.organizations.length > 0) {
+      this.props.setOrganization(this.props.organizations[0].id)
       this.setState({
-        selectedOrganization: this.props.organizations[0].id
+         selectedOrganization: this.props.organizations[0].id
       })
     }
+  }
 
-}
+  handleChange(event) {
+    let organizationID = Number(event.target.value)
+    this.props.setOrganization(organizationID)
+    this.setState({
+      selectedOrganization: organizationID
+    })
+  }
 
    render () {
      const organizations = this.props.organizations
@@ -28,9 +36,7 @@ class OrganizationDropdown extends Component {
        }
       return (
         <div>
-          <select value={this.state.selectedOrganization} onChange={(event) => this.setState({
-              selectedOrganization: event.target.value
-            })}>
+          <select value={this.state.selectedOrganization} onChange={(event) => this.handleChange(event)}>
             {options}
           </select>
         </div>

@@ -7,7 +7,7 @@ class EventControl extends Component {
     super(props)
     this.state = {
       // '174.138.15.167'
-      socketUrl: '174.138.15.167', // temp
+      socketUrl: 'localhost:3000', // temp
       socketMessage: ''
     }
   }
@@ -21,7 +21,7 @@ componentDidMount() {
 }
 
 setupNotificationsSW() {
-
+  console.log('setup sw')
   if ('serviceWorker' in navigator) {
     this.send().catch(err => console.error(err))
   }
