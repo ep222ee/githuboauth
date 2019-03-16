@@ -1,12 +1,13 @@
 'use strict'
 
 const Webhook = require('../models/WebhookSchema')
+const Setting = require('../models/SettingSchema')
 const GitHubApi = require('../models/GitHubApi')
 const apiController = {}
 
 apiController.getLoggedInUserState = async (req, res) => {
   try {
-    // * separate user state from other states?
+
     let data = {}
     if (req.user) {
       let organizations = await GitHubApi.getUserOrganizations(req.user)
@@ -23,7 +24,8 @@ apiController.getLoggedInUserState = async (req, res) => {
       let repositoriesArr = []
       organizationRepositories.forEach((repos) => {
         repos.forEach((repo) => {
-          let repositorie = {
+
+          let repository = {
             id: repo.id,
             name: repo.name,
             isAdmin: repo.permissions.admin,
@@ -33,7 +35,15 @@ apiController.getLoggedInUserState = async (req, res) => {
               name: repo.owner.login
             }
           }
-          repositoriesArr.push(repositorie)
+          if (repository.isAdmin) {
+            repository.settings = []
+            let repoSettings = Setting.find({userID: req.user.id, repoID: repo.id}, (err, data) => {
+              data.forEach((setting) => {
+                repository.settings.push(setting.eventType)
+              })
+            })
+          }
+          repositoriesArr.push(repository)
         })
       })
 
@@ -102,7 +112,7 @@ apiController.setupWebhooks = async (req, res) => {
           }
         })
       })
-    } 
+    }
     res.status(200).json()
   } catch (err) {
     console.log(err)

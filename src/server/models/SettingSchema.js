@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 let settingSchema = new mongoose.Schema({
   userID: {
-    type: String,
+    type: Number,
     required: true,
   },
   repoID: {

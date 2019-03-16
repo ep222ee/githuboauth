@@ -21,7 +21,6 @@ componentDidMount() {
 }
 
 setupNotificationsSW() {
-  console.log('setup sw')
   if ('serviceWorker' in navigator) {
     this.send().catch(err => console.error(err))
   }

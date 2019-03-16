@@ -59,6 +59,22 @@ class App extends Component {
     })
   }
 
+  getOrganizationSettings () {
+    let organizations = {}
+    this.state.userState.organizations.forEach((organization) => {
+      let repos = []
+      this.state.userState.repositories.forEach((repo) => {
+        if (repo.organization.id === organization.id && repo.isAdmin) {
+          repos.push(repo)
+        }
+      })
+      if (repos.length > 0) {
+        organizations[organization.id] = repos
+      }
+    })
+    return organizations
+  }
+
   render () {
     if (this.state.isLoggedIn && this.state.isFetchingUserState) {
       return (
@@ -73,7 +89,7 @@ class App extends Component {
           <OrganizationDropdown setOrganization = {this.setOrganization} organizations={this.state.userState.organizations} />
           <LoginControl isLoggedIn={this.state.isLoggedIn}/>
           <EventControl repositories= {this.state.userState.repositories}/>
-          <Settings repositories= {this.state.userState.repositories}/>
+          <Settings selectedOrganization= {this.state.selectedOrganization} organizationsSettings= {this.getOrganizationSettings()}/>
         </div>
       )
     } else {

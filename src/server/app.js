@@ -81,17 +81,6 @@ const vapidPublicKey = process.env.VAPID_PUBLIC
 const vapidPrivateKey = process.env.VAPID_PRIVATE
 webpush.setVapidDetails(process.env.MAIL_TO, vapidPublicKey, vapidPrivateKey)
 
-// app.post('/subscribe', (req, res) => {
-//   let subscription = req.body.subscription
-//   res.status(201).json({})
-//
-//   let payload = JSON.stringify({
-//      title: 'testar web push2',
-//      body: 'test body'
-//    })
-//   webpush.sendNotification(subscription, payload).catch(err => console.log(err))
-// })
-
 // Setup Server
 let server
 if (process.env.NODE_ENV === 'production') {
@@ -119,7 +108,6 @@ io.use(sharedsession(session))
 app.io = io
 
 io.on('connection', (socket) => {
-  io.emit('payload', 'hi client')
   const controller = require('./controllers/socketController')
 
   if (socket.handshake.session.passport) {
