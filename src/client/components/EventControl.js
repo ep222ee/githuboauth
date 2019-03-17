@@ -49,8 +49,7 @@ class EventControl extends Component {
          e.events.unshift(payload)
         }
       })
-      console.log(events)
-      // setState. update stateArray
+       this.setState({events: events})
     })
   }
 
