@@ -6,17 +6,44 @@ class EventControl extends Component {
     super(props)
     this.state = {
       // '174.138.15.167'
-      socketUrl: '174.138.15.167', // temp
-      socketMessage: ''
+      socketUrl: 'localhost:3000', // temp
+      events: []
     }
+  }
+
+  async componentWillMount() {
+    await this.getEvents()
   }
 
   componentDidMount() {
     if (this.props.repositories && this.props.repositories.length > 0) {
       this.hookSetup()
     }
+
     this.socketConnect()
     this.setupNotificationsSW()
+  }
+
+  async getEvents() {
+    let response = await fetch('/api/events', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    let events = await response.json()
+    console.log(events)
+    this.setState({
+      events: events
+    })
+  }
+
+  socketConnect() {
+    let socket = io(this.state.socketUrl)
+    socket.on('payload', (message) => {
+      console.log(message) // temp
+      // setState. update stateArray
+    })
   }
 
   setupNotificationsSW() {
@@ -59,7 +86,7 @@ class EventControl extends Component {
     return outputArray
   }
 
-  async hookSetup () {
+  async hookSetup() {
     let jsonRepositories = JSON.stringify(this.props.repositories)
     await fetch('/api/hookSetup', {
       method: 'POST',
@@ -70,17 +97,10 @@ class EventControl extends Component {
     })
   }
 
-  socketConnect() {
-    let socket = io(this.state.socketUrl)
-    socket.on('payload', (message) => {
-      console.log(message) // temp
-      // setState. update stateArray
-      this.setState({socketMessage: message})
-    })
-  }
 
 
-  render () {
+
+  render() {
     return (
       <div>
         <ul>

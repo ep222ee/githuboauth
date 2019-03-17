@@ -6,7 +6,7 @@ class OrganizationSettings extends Component {
     super(props)
   }
 
-  render () {
+  render() {
     let renderedElements
     if (this.props.repositories.length > 0) {
       renderedElements = this.props.repositories.map((repo) =>

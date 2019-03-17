@@ -5,6 +5,11 @@ const Setting = require('../models/SettingSchema')
 const GitHubApi = require('../models/GitHubApi')
 const apiController = {}
 
+apiController.getUserLoggedInStatus = async (req, res) => {
+  let loggedInStatus = req.user ? true : false
+  res.status(200).json(loggedInStatus)
+}
+
 apiController.getLoggedInUserState = async (req, res) => {
   try {
 
@@ -73,13 +78,24 @@ apiController.getUserOrganizations = async (req, res) => {
   if (user) {
     data.organizations = await GitHubApi.getUserOrganizations(user)
   }
-
   res.status(200).json(data)
 }
 
-apiController.getUserLoggedInStatus = async (req, res) => {
-  let loggedInStatus = req.user ? true : false
-  res.status(200).json(loggedInStatus)
+apiController.getEvents = async (req, res) => {
+  let user = req.user
+  let organizations = await GitHubApi.getUserOrganizations(user)
+  let eventPromises = []
+  for (let i = 0; i < organizations.length; i++) {
+    let eventPromise = GitHubApi.getOrganizationEvents(user, organizations[i])
+    eventPromises.push({
+      organizationID: organizations[i].id,
+      events: eventPromise
+    })
+  }
+  for (let i = 0; i < eventPromises.length; i++) {
+    eventPromises[i].events = await Promise.resolve(eventPromises[i].events)
+  }
+  res.status(200).json(eventPromises)
 }
 
 apiController.setupWebhooks = async (req, res) => {

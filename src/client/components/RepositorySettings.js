@@ -63,7 +63,7 @@ class RepositorySettings extends Component {
     this.setState(newState)
   }
 
-  disableSettingCallback (eventType) {
+  disableSettingCallback(eventType) {
     let newState = Object.assign({}, this.state)
 
     newState.eventSettings.forEach((eventSetting) => {
@@ -92,7 +92,7 @@ class RepositorySettings extends Component {
     return id // needed to reset a settings id-state for spamprevention
   }
 
-  render () {
+  render() {
     let eventSettings = this.state.eventSettings.map((eventSetting) =>
       <RepositoryEventSetting eventSetting = {eventSetting} setSettingCallback={this.setSettingCallback} disableSettingCallback={this.disableSettingCallback}/>
     )

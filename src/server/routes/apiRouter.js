@@ -11,10 +11,12 @@ router.route('/api/userOrganizations')
   .get(controller.getUserOrganizations)
 
 router.route('/api/isLoggedIn')
-    .get(controller.getUserLoggedInStatus)
+  .get(controller.getUserLoggedInStatus)
 
 router.route('/api/hookSetup')
   .post(controller.setupWebhooks)
 
+router.route('/api/events')
+  .get(controller.getEvents)
 
 module.exports = router

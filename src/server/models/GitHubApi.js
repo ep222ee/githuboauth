@@ -7,7 +7,6 @@ const GitHubApi = {}
 GitHubApi.getUserOrganizations = async (user) => {
   try {
     let url = `https://api.github.com/user/orgs`
-
     let userOrganizations = await fetch(url, {
         method: 'GET',
         headers: {
@@ -25,7 +24,6 @@ GitHubApi.getOrganizationRepos = async (user, userOrganizations) => {
   try {
 
       let organizationRepos = []
-
       await userOrganizations.forEach((organization) => {
         organizationRepos.push(fetch (organization.repos_url, {
           method: 'GET',
@@ -68,6 +66,20 @@ GitHubApi.setupWebhooks = async (user, repositories) => {
         console.log(setHookResponseData)
       })
   })
+}
+
+GitHubApi.getOrganizationEvents = async (user, userOrganization) => {
+  try {
+    return fetch(userOrganization.events_url, {
+      method: 'GET',
+      headers: {
+        Authorization: 'token ' + user.accessToken
+      }
+    }).then(res => res.json())
+  } catch (err) {
+    console.log(err)
+  }
+
 }
 
 

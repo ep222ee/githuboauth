@@ -28,7 +28,7 @@ class OrganizationDropdown extends Component {
     })
   }
 
- render () {
+ render() {
    const organizations = this.props.organizations
    let options
    if (organizations && organizations.length > 0) {

@@ -4,6 +4,8 @@ import OrganizationSettings from './OrganizationSettings'
 class Settings extends Component {
   constructor(props) {
     super(props)
+    this.state = {shouldShow: false}
+    this.toggleOptions = this.toggleOptions.bind(this)
   }
 
   getRepositories() {
@@ -14,13 +16,31 @@ class Settings extends Component {
     return repositories
   }
 
+  toggleOptions(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    this.setState(state => ({
+      shouldShow: !state.shouldShow
+    }))
+  }
+
   render () {
-    return (
+
+    if (this.state.shouldShow) {
+      return (
       <div>
-      <a href='#' >Notification Settings</a>
-      <OrganizationSettings repositories={this.getRepositories()}/>
+        <a href='#' onClick={(event) => this.toggleOptions(event)}>Notification Settings</a>
+        <OrganizationSettings repositories={this.getRepositories()}/>
       </div>
-    )
+      )
+
+    } else {
+      return (
+        <div>
+          <a href='#' onClick={(event) => this.toggleOptions(event)}>Notification Settings</a>
+        </div>
+      )
+    }
   }
 }
 

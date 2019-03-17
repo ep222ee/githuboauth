@@ -15,7 +15,7 @@ class RepositoryEventSetting extends Component {
     this.props.setSettingCallback(event, this.props.eventSetting.eventID)
   }
 
-  render () {
+  render() {
     let component =
     <label>
       <input type = 'checkbox' value={this.props.eventSetting.eventType} checked={this.props.eventSetting.isSet} onChange={(event) => this.changeSetting(event)}/>

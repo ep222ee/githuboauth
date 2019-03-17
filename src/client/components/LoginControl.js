@@ -5,7 +5,7 @@ class LoginControl extends Component {
     super(props)
   }
 
-  render () {
+  render() {
     const isLoggedIn = this.props.isLoggedIn
 
     if (isLoggedIn) {

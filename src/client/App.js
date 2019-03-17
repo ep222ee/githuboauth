@@ -13,9 +13,7 @@ class App extends Component {
       isFetchingUserState: false,
       selectedOrganization: ''
     }
-
     this.setOrganization = this.setOrganization.bind(this)
-
   }
 
   componentWillMount() {
@@ -87,8 +85,8 @@ class App extends Component {
         <div>
           <OrganizationDropdown setOrganization = {this.setOrganization} organizations={this.state.userState.organizations} />
           <LoginControl isLoggedIn={this.state.isLoggedIn}/>
-          <EventControl repositories= {this.state.userState.repositories}/>
-          <Settings selectedOrganization= {this.state.selectedOrganization} organizationsSettings= {this.getOrganizationSettings()}/>
+          <EventControl repositories={this.state.userState.repositories}/>
+          <Settings selectedOrganization={this.state.selectedOrganization} organizationsSettings={this.getOrganizationSettings()}/>
         </div>
       )
     } else {
