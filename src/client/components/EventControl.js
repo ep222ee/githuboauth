@@ -46,7 +46,7 @@ class EventControl extends Component {
 
       events.forEach((e) => {
        if(e.organizationID === payload.organizationID) {
-         e.events = e.events.pop(payload)
+         e.events.unshift(payload)
         }
       })
       console.log(events)
