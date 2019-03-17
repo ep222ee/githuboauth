@@ -52,7 +52,7 @@ GitHubApi.setupWebhooks = async (user, repositories) => {
           config: {
             url: `${process.env.HOOK_CALLBACK_URL}`,
             content_type: 'json',
-            insecure_ssl: '1'
+            insecure_ssl: '1' //change to 0 when using non insecure ssl
           }
         }
 

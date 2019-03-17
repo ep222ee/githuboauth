@@ -53,7 +53,6 @@ class App extends Component {
   }
 
   setOrganization (organization) {
-    console.log(organization)
     this.setState({
       selectedOrganization: organization
     })

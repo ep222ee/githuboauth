@@ -5,7 +5,9 @@ class RepositoryEventSetting extends Component {
     super(props)
   }
 
+  // Event handler for changing a settings
   changeSetting(event) {
+    // prevent change setting spam
     if (this.props.eventSetting.disabled) {
       return false
     }
@@ -14,7 +16,6 @@ class RepositoryEventSetting extends Component {
   }
 
   render () {
-
     let component =
     <label>
       <input type = 'checkbox' value={this.props.eventSetting.eventType} checked={this.props.eventSetting.isSet} onChange={(event) => this.changeSetting(event)}/>
@@ -28,6 +29,5 @@ class RepositoryEventSetting extends Component {
     )
   }
 }
-
 
 export default RepositoryEventSetting

@@ -11,7 +11,6 @@ class Settings extends Component {
     if (this.props.organizationsSettings[this.props.selectedOrganization]) {
       repositories = this.props.organizationsSettings[this.props.selectedOrganization]
     }
-    console.log(repositories)
     return repositories
   }
 
@@ -24,6 +23,5 @@ class Settings extends Component {
     )
   }
 }
-
 
 export default Settings
