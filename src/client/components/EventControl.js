@@ -45,7 +45,7 @@ class EventControl extends Component {
       let events = this.state.events
 
       events.forEach((e) => {
-       if(e.organizationID === this.props.selectedOrganization) {
+       if(e.organizationID === payload.organizationID) {
          e.events = e.events.pop(payload)
         }
       })
