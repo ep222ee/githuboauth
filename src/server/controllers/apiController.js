@@ -44,18 +44,18 @@ apiController.getLoggedInUserState = async (req, res) => {
           }
           if (repository.isAdmin) {
             repository.settings = []
-            let repoSettings = await Setting.find({userID: req.user.id, repoID: repo.id}, (err, settings) => {
-              if (err) {
-                console.log(err)
-              }
-              settings.forEach((setting) => {
-                repository.settings.push({
-                  eventType: setting.eventType,
-                  eventID: setting._id,
-                  isSet: true
-                })
-              })
-            })
+            // let repoSettings = await Setting.find({userID: req.user.id, repoID: repo.id}, (err, settings) => {
+            //   if (err) {
+            //     console.log(err)
+            //   }
+            //   settings.forEach((setting) => {
+            //     repository.settings.push({
+            //       eventType: setting.eventType,
+            //       eventID: setting._id,
+            //       isSet: true
+            //     })
+            //   })
+            // })
           }
           repositoriesArr.push(repository)
         }
