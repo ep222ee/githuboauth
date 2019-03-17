@@ -10,7 +10,7 @@ const webhookController = {}
 webhookController.payloadPost = async (req, res) => {
   let hookRepository = req.body.repository.id
   // Find all users subscribed to the repository hook.
-
+  console.log(req.body)
   let hookSubscribers = await Webhook.find({ repoID: hookRepository })
   // Send to active subscribed user sockets.
   let activeClients = []
@@ -28,38 +28,42 @@ webhookController.payloadPost = async (req, res) => {
     switch(ghEvent) {
       case 'issues':
         hookPayload = {
+          organizationID: req.body.organization.id,
+          actor: req.body.issue.user.login,
+          createdAt: req.body.issue.created_at,
+          eventType: 'IssuesEvent',
+          repo: req.body.repository.full_name,
+          repoURL: req.body.repository.html_url,
           action: req.body.action,
-          author: req.body.issue.user.login,
-          title: req.body.issue.title,
-          created_at: req.body.issue.created_at,
-          updated_at: req.body.issue.updated_at,
-          userAvatar: req.body.issue.user.avatar_url,
-          body: req.body.issue.body
+          newEvent: true
         }
         break
       case 'issue_comment':
         hookPayload = {
+          organizationID: req.body.organization.id,
+          actor: req.body.comment.user.login,
+          createdAt: req.body.comment.created_at,
+          eventType: 'IssueCommentEvent',
+          repo: req.body.repository.full_name,
+          repoURL: req.body.repository.html_url,
           action: req.body.action,
-          author: req.body.comment.user.login,
-          userAvatar: req.body.comment.user.avatar_url,
-          body: req.body.comment.body,
-          commentedRepo: req.body.repository.name,
-          issueTitle: req.body.issue.title,
-          created_at: req.body.comment.created_at,
-          updated_at: req.body.comment.updated_at,
+          newEvent: true
         }
         break
       case 'push':
          hookPayload = {
-           pusher: req.body.pusher.name,
-           committer: req.body.head_commit.committer.name,
-           author: req.body.head_commit.author.name,
-           message: req.body.head_commit.message,
-           pushTime: req.body.head_commit.timestamp,
-           repoName: req.body.repository.name
+           organizationID: req.body.organization.id,
+           actor: req.body.pusher.name,
+           createdAt: req.body.head_commit.timestamp,
+           eventType: 'PushEvent',
+           repo: req.body.repository.full_name,
+           repoURL: req.body.repository.html_url,
+           action: 'Push',
+           newEvent: true
         }
         break
     }
+    console.log(hookPayload)
     activeClients.forEach((client) => {
       client.forEach((socket) => {
         let socketID = socket.socketID

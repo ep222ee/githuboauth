@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client'
+import EventList from './EventList'
 
 class EventControl extends Component {
   constructor(props) {
     super(props)
     this.state = {
       // '174.138.15.167'
-      socketUrl: 'localhost:3000', // temp
+      socketUrl: '174.138.15.167', // temp
       events: []
     }
   }
@@ -98,16 +99,24 @@ class EventControl extends Component {
   }
 
 
+ getRepositoryEvents() {
+   let events = this.state.events.filter((organizationEvents) => {
+    return organizationEvents.organizationID === this.props.selectedOrganization
+   })
+   if (events && events.length > 0) {
+     return events[0].events
+   }
+   return []
+ }
+
 
 
   render() {
+    let returnValue =
+      <EventList events={this.getRepositoryEvents()}/>
     return (
       <div>
-        <ul>
-          <li>
-          lista med events
-          </li>
-        </ul>
+        {returnValue}
       </div>
     )
   }

@@ -32,8 +32,9 @@ app.disable('x-powered-by')
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'"],
-    connectSrc : ["'self'", `${process.env.WSS_URL}`, `${process.env.WS_URL}`]
+    connectSrc : ["'self'", `${process.env.WSS_URL}`, `${process.env.WS_URL}`],
+    scriptSrc: ["'self'", 'https://code.jquery.com/jquery-3.3.1.slim.min.js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js'],
+    styleSrc: ["'self'", 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', "'unsafe-inline'"],
     // imgSrc : ["'self'", `github..`]
   }
 }))

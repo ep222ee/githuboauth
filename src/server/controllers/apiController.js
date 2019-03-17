@@ -89,12 +89,38 @@ apiController.getEvents = async (req, res) => {
     let eventPromise = GitHubApi.getOrganizationEvents(user, organizations[i])
     eventPromises.push({
       organizationID: organizations[i].id,
-      events: eventPromise
+      eventPromises: eventPromise,
+      events: []
     })
   }
   for (let i = 0; i < eventPromises.length; i++) {
-    eventPromises[i].events = await Promise.resolve(eventPromises[i].events)
+    eventPromises[i].eventPromises = await Promise.resolve(eventPromises[i].eventPromises)
+    console.log(eventPromises[i].eventPromises)
+    eventPromises[i].eventPromises.forEach((event) => {
+      let eventObject = {
+        actor: event.actor.login,
+        actorIMG: event.actor.avatar_url,
+        createdAt: event.created_at,
+        eventType: event.type,
+        repo: event.repo.name,
+        repoURL: event.repo.url,
+        newEvent: false,
+        action: ''
+      }
+      switch (event.type) {
+        case 'IssuesEvent':
+        case 'IssueCommentEvent':
+          eventObject.action = event.payload.action
+          break
+        case 'PushEvent':
+          eventObject.action = 'Push'
+          break
+      }
+      eventPromises[i].events.push(eventObject)
+    })
+    // eventPromises[i].eventPromises = null
   }
+
   res.status(200).json(eventPromises)
 }
 
