@@ -33,7 +33,7 @@ webhookController.payloadPost = async (req, res) => {
           createdAt: req.body.issue.created_at,
           eventType: 'IssuesEvent',
           repo: req.body.repository.full_name,
-          repoURL: req.body.repository.html_url,
+          repoURL: `https://github.com/${req.body.repository.full_name}`,
           action: req.body.action,
           newEvent: true
         }
@@ -45,7 +45,7 @@ webhookController.payloadPost = async (req, res) => {
           createdAt: req.body.comment.created_at,
           eventType: 'IssueCommentEvent',
           repo: req.body.repository.full_name,
-          repoURL: req.body.repository.html_url,
+          repoURL: `https://github.com/${req.body.repository.full_name}`,
           action: req.body.action,
           newEvent: true
         }
@@ -57,7 +57,7 @@ webhookController.payloadPost = async (req, res) => {
            createdAt: req.body.head_commit.timestamp,
            eventType: 'PushEvent',
            repo: req.body.repository.full_name,
-           repoURL: req.body.repository.html_url,
+           repoURL: `https://github.com/${req.body.repository.full_name}`,
            action: 'Push',
            newEvent: true
         }

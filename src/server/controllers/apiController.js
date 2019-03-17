@@ -95,7 +95,6 @@ apiController.getEvents = async (req, res) => {
   }
   for (let i = 0; i < eventPromises.length; i++) {
     eventPromises[i].eventPromises = await Promise.resolve(eventPromises[i].eventPromises)
-    console.log(eventPromises[i].eventPromises)
     eventPromises[i].eventPromises.forEach((event) => {
       let eventObject = {
         actor: event.actor.login,
@@ -103,7 +102,7 @@ apiController.getEvents = async (req, res) => {
         createdAt: event.created_at,
         eventType: event.type,
         repo: event.repo.name,
-        repoURL: event.repo.url,
+        repoURL: `https://github.com/${event.repo.name}`,
         newEvent: false,
         action: ''
       }

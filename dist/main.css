@@ -1,3 +1,49 @@
 main {
   padding-top: 50px;
 }
+
+.eventList {
+  list-style-type: none;
+  padding-left: 0px;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.eventList li {
+  background-color: #eee;
+  padding: 15px;
+  margin-bottom: 2px;
+}
+
+.eventType, .eventAction {
+  margin-right: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.eventType {
+  background-color: blue;
+}
+
+.eventAction {
+  background-color: green;
+}
+
+.eventLabels {
+  display: block;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.eventBody p {
+  margin-bottom: 0px;
+}
+
+.newEvent {
+  border-left: 5px solid red;
+}
+
+.hidden {
+  display: none;
+}

@@ -41,8 +41,15 @@ class EventControl extends Component {
 
   socketConnect() {
     let socket = io(this.state.socketUrl)
-    socket.on('payload', (message) => {
-      console.log(message) // temp
+    socket.on('payload', (payload) => {
+      let events = this.state.events
+
+      events.forEach((e) => {
+       if(e.organizationID === this.props.selectedOrganization) {
+         e.events.pop(payload)
+        }
+      })
+      console.log(events)
       // setState. update stateArray
     })
   }
