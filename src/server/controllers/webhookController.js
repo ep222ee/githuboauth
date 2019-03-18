@@ -1,6 +1,7 @@
 'use strict'
 const webpush = require('web-push')
 const Webhook = require('../models/WebhookSchema')
+const User = require('../models/UserSchema')
 const Socket = require('../models/SocketSchema')
 const Setting = require('../models/SettingSchema')
 const Subscriber = require('../models/SubscriberSchema')
