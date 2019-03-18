@@ -19,10 +19,10 @@ module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, p
       let newUser = new User({
         username: profile._json.login,
         githubID: profile._json.id,
-        avatar_url: profile._json.avatar_url
+        lastLoggedIn: Date.now()
       })
 
-      newUser.save((err, newUser) => {
+      newUser.save((err, newUser) => {//timestamp get date
         if (err) {
           console.log(err)
         }
@@ -33,8 +33,8 @@ module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, p
   let user = {
     id: profile.id,
     username: profile.username,
-    avatar_url: profile._json.avatar_url,
     accessToken: accessToken,
   }
+
   return cb(null, user)
 })

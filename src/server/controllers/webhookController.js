@@ -10,7 +10,6 @@ const webhookController = {}
 webhookController.payloadPost = async (req, res) => {
   let hookRepository = req.body.repository.id
   // Find all users subscribed to the repository hook.
-  console.log(req.body)
   let hookSubscribers = await Webhook.find({ repoID: hookRepository })
   // Send to active subscribed user sockets.
   let activeClients = []
@@ -18,6 +17,7 @@ webhookController.payloadPost = async (req, res) => {
     // find all active sockets for subscribed users.
     let activeClient = await Socket.find({ userID: hookSubscribers[i].userID })
     activeClients.push(activeClient)
+    //om user har activa sockets spara time stamp på user till date.now
   }
 
   let ghEvent = req.headers['x-github-event']
@@ -63,13 +63,23 @@ webhookController.payloadPost = async (req, res) => {
         }
         break
     }
-    console.log(hookPayload)
-    activeClients.forEach((client) => {
-      client.forEach((socket) => {
+
+    for (let i = 0; i < activeClients.length; i++) {
+      let client = activeClients[i]
+      for (let j = 0; j < client.length; j++) {
+        let socket = client[j]
+        let userDBobject = await User.find({githubID: socket.userID})
+        if (userDBobject && userDBobject.length > 0) {
+          await User.findByIdAndUpdate(userDBobject[0]._id, {lastLoggedIn: Date.now()}, (err, data) => {
+            if (err) {
+              console.log(err)
+            }
+          })
+        }
         let socketID = socket.socketID
          req.app.io.to(socketID).emit('payload', hookPayload)
-      })
-    })
+      }
+    }
   }
 
   let pushSettings = []

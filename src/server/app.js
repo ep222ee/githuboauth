@@ -76,7 +76,7 @@ app.use('/', require('./routes/webhookRouter.js'))
 app.use('/', require('./routes/swRouter.js'))
 app.use('/', require('./routes/settingsRouter.js'))
 
-// Setup Service worker for push notifications.
+// Service worker web push settings.
 const webpush = require('web-push')
 const vapidPublicKey = process.env.VAPID_PUBLIC
 const vapidPrivateKey = process.env.VAPID_PRIVATE

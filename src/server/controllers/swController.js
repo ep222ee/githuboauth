@@ -12,11 +12,6 @@ swController.subscribeSW = async (req, res) => {
      body: 'Manage which events to receive notifications for in the notification settings'
    })
 
-   let payloadG = JSON.stringify({
-      title: 'greger! ',
-      body: 'Manageasgasgasgagsasgasgasg'
-    })
-
   webpush.sendNotification(subscription, payload).catch(err => console.log(err))
 
   // Check if subscription already exist

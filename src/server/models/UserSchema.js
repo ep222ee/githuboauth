@@ -11,9 +11,10 @@ let userSchema = new mongoose.Schema({
   githubID: {
     type: String,
     required: true,
+    unique: true
   },
-  avatar_url: {
-    type: String,
+  lastLoggedIn: {
+    type: Number,
     required: true
   }
 })

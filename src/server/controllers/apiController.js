@@ -3,6 +3,7 @@
 const Webhook = require('../models/WebhookSchema')
 const Setting = require('../models/SettingSchema')
 const GitHubApi = require('../models/GitHubApi')
+const User = require('../models/UserSchema')
 const apiController = {}
 
 apiController.getUserLoggedInStatus = async (req, res) => {
@@ -83,6 +84,16 @@ apiController.getUserOrganizations = async (req, res) => {
 
 apiController.getEvents = async (req, res) => {
   let user = req.user
+  let userDBobject = await User.find({githubID: req.user.id})
+  let lastLoggedIn
+  if (userDBobject && userDBobject.length > 0) {
+    lastLoggedIn = userDBobject[0].lastLoggedIn
+    await User.findByIdAndUpdate(userDBobject[0]._id, {lastLoggedIn: Date.now()}, (err, data) => {
+      if (err) {
+        console.log(err)
+      }
+    })
+  }
   let organizations = await GitHubApi.getUserOrganizations(user)
   let eventPromises = []
   for (let i = 0; i < organizations.length; i++) {
@@ -96,6 +107,9 @@ apiController.getEvents = async (req, res) => {
   for (let i = 0; i < eventPromises.length; i++) {
     eventPromises[i].eventPromises = await Promise.resolve(eventPromises[i].eventPromises)
     eventPromises[i].eventPromises.forEach((event) => {
+      let eventDate = new Date(event.created_at)
+      eventDate = eventDate.getTime()
+
       let eventObject = {
         actor: event.actor.login,
         actorIMG: event.actor.avatar_url,
@@ -103,7 +117,7 @@ apiController.getEvents = async (req, res) => {
         eventType: event.type,
         repo: event.repo.name,
         repoURL: `https://github.com/${event.repo.name}`,
-        newEvent: false,
+        newEvent: lastLoggedIn < eventDate ? true : false, // true if createdAt > timestamp
         action: ''
       }
       switch (event.type) {
@@ -119,6 +133,8 @@ apiController.getEvents = async (req, res) => {
     })
     // eventPromises[i].eventPromises = null
   }
+
+  // save timeStamp till date now
 
   res.status(200).json(eventPromises)
 }
