@@ -11,16 +11,15 @@ class LoginControl extends Component {
     if (isLoggedIn) {
       return (
         <form method ="post" action="/logout">
-          <button type="submit">Logout</button>
+          <button className='btn btn-primary' type="submit">Sign out</button>
         </form>
       )
     } else {
       return (
-        <a href='/auth/github' >Login With Github</a>
+        <a className='btn btn-primary' href='/auth/github'>Sign in with GitHub</a>
       )
     }
   }
 }
-
 
 export default LoginControl

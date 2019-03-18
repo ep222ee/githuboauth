@@ -10,7 +10,6 @@ loginController.logoutPost = (req, res) => {
   })
 }
 
-
 loginController.oauthLogin = (req, res) => {
   res.redirect('/')
 }

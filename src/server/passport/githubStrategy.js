@@ -19,10 +19,10 @@ module.exports = new GithubStrategy(githubOptions, (accessToken, refreshToken, p
       let newUser = new User({
         username: profile._json.login,
         githubID: profile._json.id,
-        lastLoggedIn: Date.now()
+        lastLoggedIn: Date.now() // set first logged in time
       })
 
-      newUser.save((err, newUser) => {//timestamp get date
+      newUser.save((err, newUser) => {
         if (err) {
           console.log(err)
         }

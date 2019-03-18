@@ -5,29 +5,30 @@ main {
 .eventList {
   list-style-type: none;
   padding-left: 0px;
-  display: inline-block;
   font-size: 14px;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 .eventList li {
   background-color: #eee;
   padding: 15px;
   margin-bottom: 2px;
+  max-width: 100%;
 }
 
 .eventType, .eventAction {
-  margin-right: 10px;
-  padding: 5px 10px;
-  border-radius: 5px;
+  margin-right: 5px;
+  padding: 3px 7px;
   color: #fff;
 }
 
 .eventType {
-  background-color: blue;
+  background-color: #343a40;
 }
 
 .eventAction {
-  background-color: green;
+  background-color: #17a2b8;
 }
 
 .eventLabels {
@@ -41,9 +42,64 @@ main {
 }
 
 .newEvent {
-  border-left: 5px solid red;
+  border-left: 5px solid #dc3545;
 }
 
 .hidden {
   display: none;
+}
+
+.settingsDiv {
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+}
+
+.organizationSettings {
+  background-color: #eee;
+  padding: 15px;
+  display: block;
+  margin-top: 10px;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 0px;
+  margin-top: 5px;
+}
+
+.repoSettings {
+  border-bottom: 2px solid #fff;
+}
+
+.repoSettings:last-child {
+  border-bottom: none !important;
+}
+
+.repoSettings div {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+label {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+input[type=checkbox] {
+  margin-right: 5px;
+}
+
+select {
+  padding: 10px;
+  width: 100%;
+}
+
+.btn-primary {
+    padding: 3px 10px !important;
+}
+
+.navbar-brand {
+  max-width: 250px !important;
 }

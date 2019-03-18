@@ -28,16 +28,16 @@ class Settings extends Component {
 
     if (this.state.shouldShow) {
       return (
-      <div>
-        <a href='#' onClick={(event) => this.toggleOptions(event)}>Notification Settings</a>
+      <div className='settingsDiv'>
+        <a href='#' className='btn btn-secondary' onClick={(event) => this.toggleOptions(event)}>Notification Settings</a>
         <OrganizationSettings repositories={this.getRepositories()}/>
       </div>
       )
 
     } else {
       return (
-        <div>
-          <a href='#' onClick={(event) => this.toggleOptions(event)}>Notification Settings</a>
+        <div className='settingsDiv'>
+          <a href='#' className='btn btn-secondary' onClick={(event) => this.toggleOptions(event)}>Notification Settings</a>
         </div>
       )
     }

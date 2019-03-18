@@ -18,7 +18,6 @@ class EventList extends Component {
           </ol>
         </div>
       )
-
     } else {
       return(
         <div><p>There are no events for this organization</p></div>

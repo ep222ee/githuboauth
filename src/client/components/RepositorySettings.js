@@ -12,7 +12,6 @@ class RepositorySettings extends Component {
     this.disableSettingCallback = this.disableSettingCallback.bind(this)
   }
 
-
   getEventSettings() {
     let eventSettingTypes = ['issues', 'issue_comment', 'push']
     let eventSettings = []
@@ -111,9 +110,9 @@ class RepositorySettings extends Component {
         <RepositoryEventSetting eventSetting = {eventSetting} setSettingCallback={this.setSettingCallback} disableSettingCallback={this.disableSettingCallback}/>
       )
       return (
-        <div>
-        <h2>{this.props.repository.name}</h2>
-        {eventSettings}
+        <div className='repoSettings'>
+          <h2>{this.props.repository.name}</h2>
+          {eventSettings}
         </div>
       )
 

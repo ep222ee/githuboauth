@@ -29,7 +29,6 @@ settingsController.postSettings = async (req, res) => {
 
 settingsController.getSettings = async (req, res) => {
   let settingsArr = []
-  console.log('get settings')
   let repoSettings = await Setting.find({userID: req.user.id, repoID: req.params.id})
 
     for (let i = 0; i < repoSettings.length; i++) {
@@ -41,7 +40,6 @@ settingsController.getSettings = async (req, res) => {
       })
     }
 
-  console.log(settingsArr)
 res.status(200).json(settingsArr)
 }
 

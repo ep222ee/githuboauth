@@ -13,7 +13,6 @@ apiController.getUserLoggedInStatus = async (req, res) => {
 
 apiController.getLoggedInUserState = async (req, res) => {
   try {
-
     let data = {}
     if (req.user) {
       let organizations = await GitHubApi.getUserOrganizations(req.user)
@@ -45,18 +44,6 @@ apiController.getLoggedInUserState = async (req, res) => {
           }
           if (repository.isAdmin) {
             repository.settings = []
-            // let repoSettings = await Setting.find({userID: req.user.id, repoID: repo.id}, (err, settings) => {
-            //   if (err) {
-            //     console.log(err)
-            //   }
-            //   settings.forEach((setting) => {
-            //     repository.settings.push({
-            //       eventType: setting.eventType,
-            //       eventID: setting._id,
-            //       isSet: true
-            //     })
-            //   })
-            // })
           }
           repositoriesArr.push(repository)
         }
@@ -131,10 +118,7 @@ apiController.getEvents = async (req, res) => {
       }
       eventPromises[i].events.push(eventObject)
     })
-    // eventPromises[i].eventPromises = null
   }
-
-  // save timeStamp till date now
 
   res.status(200).json(eventPromises)
 }
@@ -149,7 +133,9 @@ apiController.setupWebhooks = async (req, res) => {
     })
     // get repositories with set up webhooks
     let savedWebhooks = await Webhook.find({userID: user.id}, 'repoID', (err, data) => {
-      if (err) console.log(err)
+      if (err) {
+        console.log(err)
+      }
       return data
     })
     // only keep repositories without webhooks

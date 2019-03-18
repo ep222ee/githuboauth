@@ -33,7 +33,6 @@ class EventControl extends Component {
       }
     })
     let events = await response.json()
-    console.log(events)
     this.setState({
       events: events
     })
@@ -104,7 +103,6 @@ class EventControl extends Component {
     })
   }
 
-
  getRepositoryEvents() {
    let events = this.state.events.filter((organizationEvents) => {
     return organizationEvents.organizationID === this.props.selectedOrganization
@@ -114,8 +112,6 @@ class EventControl extends Component {
    }
    return []
  }
-
-
 
   render() {
     let returnValue =
@@ -127,6 +123,5 @@ class EventControl extends Component {
     )
   }
 }
-
 
 export default EventControl
